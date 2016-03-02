@@ -202,6 +202,41 @@ func TestMockPersistTimes(t *testing.T) {
 	}
 }
 
+func TestMultipleMocks(t *testing.T) {
+	defer Disable()
+
+	New("http://server.com").
+		Get("/foo").
+		Reply(200).
+		JSON(map[string]string{"value": "foo"})
+
+	New("http://server.com").
+		Get("/bar").
+		Reply(200).
+		JSON(map[string]string{"value": "bar"})
+
+	New("http://server.com").
+		Get("/baz").
+		Reply(200).
+		JSON(map[string]string{"value": "baz"})
+
+	tests := []struct {
+		path string
+	}{
+		{"/foo"},
+		{"/bar"},
+		{"/baz"},
+	}
+
+	for _, test := range tests {
+		res, err := http.Get("http://server.com" + test.path)
+		st.Expect(t, err, nil)
+		st.Expect(t, res.StatusCode, 200)
+		body, _ := ioutil.ReadAll(res.Body)
+		st.Expect(t, string(body)[:15], `{"value":"`+test.path[1:]+`"}`)
+	}
+}
+
 func TestInterceptClient(t *testing.T) {
 	defer after()
 
