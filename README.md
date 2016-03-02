@@ -134,7 +134,7 @@ func TestMockSimple(t *testing.T) {
 }
 ```
 
-#### Mocking using a custom http.Client
+#### Mocking a custom http.Client and http.RoundTripper
 
 ```go
 package test
