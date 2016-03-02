@@ -107,6 +107,34 @@ func TestMatchHeaders(t *testing.T) {
 	}
 }
 
+func TestMatchQueryParams(t *testing.T) {
+	cases := []struct {
+		value   string
+		path    string
+		matches bool
+	}{
+		{"foo=bar", "foo=bar", true},
+		{"foo=bar", "foo=foo&foo=bar", true},
+		{"foo=b*", "foo=bar", true},
+		{"foo=.*", "foo=bar", true},
+		{"foo=f[o]{2}", "foo=foo", true},
+		{"foo=bar&bar=foo", "foo=bar&foo=foo&bar=foo", true},
+		{"foo=", "foo=bar", true},
+		{"foo=foo", "foo=bar", false},
+		{"bar=bar", "foo=bar bar", false},
+	}
+
+	for _, test := range cases {
+		u, _ := url.Parse("http://foo.com/?" + test.path)
+		mu, _ := url.Parse("http://foo.com/?" + test.value)
+		req := &http.Request{URL: u}
+		ereq := &Request{URLStruct: mu}
+		matches, err := MatchQueryParams(req, ereq)
+		st.Expect(t, err, nil)
+		st.Expect(t, matches, test.matches)
+	}
+}
+
 func TestMatchBody(t *testing.T) {
 	cases := []struct {
 		value   string

@@ -9,15 +9,16 @@ Still beta. Needs more examples, docs and test coverage.
 
 - Simple, expressive, fluent API.
 - Semantic DSL for easy HTTP mocks definition.
-- Unobstructure HTTP interceptor based on `http.RoundTripper`.
 - Built-in helpers for easy JSON/XML mocking.
 - Supports persistent and volatile mocks.
+- Full regexp capable HTTP request matching.
 - Designed for both testing and runtime scenarios.
-- Network delay simulation.
 - Match request by method, URL params, headers and bodies.
-- Extensible HTTP matching.
-- Supports map/filters iterators to work with mocks.
-- Optional real networking with custom rules.
+- Extensible HTTP matching rules.
+- Supports map and filters to wotk with mocks.
+- Ability to switch between mock and real networking modes.
+- Unobstructure HTTP interceptor based on `http.RoundTripper`.
+- Network delay simulation (beta).
 - Extensible and hackable API.
 
 ## Installation

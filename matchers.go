@@ -59,6 +59,29 @@ func MatchHeaders(req *http.Request, ereq *Request) (bool, error) {
 	return true, nil
 }
 
+// MatchQueryParams matches the URL query params fields of the given request.
+func MatchQueryParams(req *http.Request, ereq *Request) (bool, error) {
+	for key, value := range ereq.URLStruct.Query() {
+		var err error
+		var match bool
+
+		for _, field := range req.URL.Query()[key] {
+			match, err = regexp.MatchString(value[0], field)
+			if err != nil {
+				return false, err
+			}
+			if match {
+				break
+			}
+		}
+
+		if !match {
+			return false, nil
+		}
+	}
+	return true, nil
+}
+
 // MatchBody tries to match the request body.
 // TODO: needs several improvements
 func MatchBody(req *http.Request, ereq *Request) (bool, error) {
