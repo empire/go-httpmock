@@ -35,6 +35,8 @@ See [godoc reference](https://godoc.org/github.com/h2non/gock) for detailed API 
 
 ## Examples
 
+See [examples](https://github.com/h2non/gock/tree/master/_examples) directory for more featured use cases.
+
 #### Simple mocking via tests
 
 ```go
