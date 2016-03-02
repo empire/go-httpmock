@@ -63,18 +63,6 @@ func (r *Response) Status(code int) *Response {
 	return r
 }
 
-// Body sets the HTTP response body to be used.
-func (r *Response) Body(body io.Reader) *Response {
-	r.BodyBuffer, r.Error = ioutil.ReadAll(body)
-	return r
-}
-
-// BodyString defines the response body as string.
-func (r *Response) BodyString(body string) *Response {
-	r.BodyBuffer = []byte(body)
-	return r
-}
-
 // SetHeader sets a new header field in the mock response.
 func (r *Response) SetHeader(key, value string) *Response {
 	r.Header.Set(key, value)
@@ -93,6 +81,18 @@ func (r *Response) SetHeaders(headers map[string]string) *Response {
 	for key, value := range headers {
 		r.Header.Add(key, value)
 	}
+	return r
+}
+
+// Body sets the HTTP response body to be used.
+func (r *Response) Body(body io.Reader) *Response {
+	r.BodyBuffer, r.Error = ioutil.ReadAll(body)
+	return r
+}
+
+// BodyString defines the response body as string.
+func (r *Response) BodyString(body string) *Response {
+	r.BodyBuffer = []byte(body)
 	return r
 }
 

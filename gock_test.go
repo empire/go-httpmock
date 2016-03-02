@@ -163,6 +163,45 @@ func TestMockEnableNetworkFilter(t *testing.T) {
 	st.Expect(t, len(GetAll()), 0)
 }
 
+func TestMockPersistent(t *testing.T) {
+	defer after()
+	New("http://foo.com").
+		Get("/bar").
+		Persist().
+		Reply(200).
+		JSON(map[string]string{"foo": "bar"})
+
+	for i := 0; i < 5; i++ {
+		res, err := http.Get("http://foo.com/bar")
+		st.Expect(t, err, nil)
+		st.Expect(t, res.StatusCode, 200)
+		body, _ := ioutil.ReadAll(res.Body)
+		st.Expect(t, string(body)[:13], `{"foo":"bar"}`)
+	}
+}
+
+func TestMockPersistTimes(t *testing.T) {
+	defer after()
+	New("http://127.0.0.1:1234").
+		Get("/bar").
+		Times(4).
+		Reply(200).
+		JSON(map[string]string{"foo": "bar"})
+
+	for i := 0; i < 5; i++ {
+		res, err := http.Get("http://127.0.0.1:1234/bar")
+		if i == 4 {
+			st.Reject(t, err, nil)
+			break
+		}
+
+		st.Expect(t, err, nil)
+		st.Expect(t, res.StatusCode, 200)
+		body, _ := ioutil.ReadAll(res.Body)
+		st.Expect(t, string(body)[:13], `{"foo":"bar"}`)
+	}
+}
+
 func TestInterceptClient(t *testing.T) {
 	defer after()
 
