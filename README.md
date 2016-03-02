@@ -17,9 +17,9 @@ Note: still beta, needs more docs and test coverage.
 - Designed for both testing and runtime scenarios.
 - Match request by method, URL params, headers and bodies.
 - Extensible HTTP matching rules.
-- Supports map and filters to wotk with mocks.
 - Ability to switch between mock and real networking modes.
-- Unobstructure HTTP interceptor based on `http.RoundTripper`.
+- Supports map and filters to handle mocks easily.
+- Wide compatible HTTP interceptor using `http.RoundTripper` interface.
 - Network delay simulation (beta).
 - Extensible and hackable API.
 
@@ -167,11 +167,12 @@ func TestClient(t *testing.T) {
 #### Enable real networking
 
 ```go
-package test
+package main
 
 import (
   "fmt"
   "gopkg.in/h2non/gock.v0"
+  "io/ioutil"
   "net/http"
 )
 
@@ -182,13 +183,21 @@ func main() {
   gock.EnableNetworking()
   gock.New("http://httpbin.org").
     Get("/get").
-    Reply(201)
+    Reply(201).
+    SetHeader("Server", "gock")
 
   res, err := http.Get("http://httpbin.org/get")
   if err != nil {
     fmt.Errorf("Error: %s", err)
   }
+
+  // The response status comes from the mock
   fmt.Printf("Status: %d\n", res.StatusCode)
+  // The server header comes from mock as well
+  fmt.Printf("Server header: %s\n", res.Header.Get("Server"))
+  // Response body is the original
+  body, _ := ioutil.ReadAll(res.Body)
+  fmt.Printf("Body: %s", string(body))
 }
 ```
 

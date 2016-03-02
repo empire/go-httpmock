@@ -86,7 +86,9 @@ func (e *Mocker) Match(req *http.Request) (bool, error) {
 
 	// Map
 	for _, mapper := range e.request.Mappers {
-		req = mapper(req)
+		if treq := mapper(req); treq != nil {
+			req = treq
+		}
 	}
 
 	// Filter

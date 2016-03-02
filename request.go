@@ -47,11 +47,11 @@ type Request struct {
 	// BodyBuffer stores the body data to match.
 	BodyBuffer []byte
 
-	// Filters stores the request functions filters used for matching.
-	Filters []FilterRequestFunc
-
 	// Mappers stores the request functions mappers used for matching.
 	Mappers []MapRequestFunc
+
+	// Filters stores the request functions filters used for matching.
+	Filters []FilterRequestFunc
 }
 
 // NewRequest creates a new Request instance.
