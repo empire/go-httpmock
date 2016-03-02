@@ -3,7 +3,9 @@
 Versatile HTTP mocking made simple for [Go](https://golang.org). 
 Heavily inspired by [nock](https://github.com/pgte/nock).
 
-Still beta. Needs more examples, docs and test coverage.
+Take a look to the [examples](#examples) to get started.
+
+Note: still beta, needs more docs and test coverage.
 
 ## Features
 
