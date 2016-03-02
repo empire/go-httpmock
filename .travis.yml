@@ -9,7 +9,8 @@ go:
   - tip
 
 before_install:
-  - go get github.com/nbio/st
+  - go get -u github.com/nbio/st
+  - go get -u gopkg.in/h2non/gock.v0
   - go get -u -v github.com/axw/gocov/gocov
   - go get -u -v github.com/mattn/goveralls
   - go get -u -v github.com/golang/lint/golint
