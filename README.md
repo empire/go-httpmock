@@ -38,7 +38,6 @@ See [godoc reference](https://godoc.org/github.com/h2non/gock) for detailed API 
 package test
 
 import (
-  "bytes"
   "github.com/nbio/st"
   "gopkg.in/h2non/gock.v0"
   "io/ioutil"
@@ -49,18 +48,16 @@ import (
 func TestSimple(t *testing.T) {
   defer gock.Disable()
   gock.New("http://foo.com").
-    Post("/bar").
-    JSON(map[string]string{"foo": "bar"}).
-    Reply(201).
-    JSON(map[string]string{"bar": "foo"})
+    Get("/bar").
+    Reply(200).
+    JSON(map[string]string{"foo": "bar"})
 
-  body := bytes.NewBuffer([]byte(`{"foo":"bar"}`))
-  res, err := http.Post("http://foo.com/bar", "application/json", body)
+  res, err := http.Get("http://foo.com/bar")
   st.Expect(t, err, nil)
-  st.Expect(t, res.StatusCode, 201)
+  st.Expect(t, res.StatusCode, 200)
 
-  resBody, _ := ioutil.ReadAll(res.Body)
-  st.Expect(t, string(resBody)[:13], `{"bar":"foo"}`)
+  body, _ := ioutil.ReadAll(res.Body)
+  st.Expect(t, string(body)[:13], `{"foo":"bar"}`)
 }
 ```
 
@@ -100,7 +97,7 @@ func TestMatchHeaders(t *testing.T) {
 }
 ```
 
-#### Match request body
+#### JSON body matching and response
 
 ```go
 package test
