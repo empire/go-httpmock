@@ -10,7 +10,7 @@ var Matchers = []MatchFunc{
 	MatchHeaders,
 }
 
-// DefaultMatchers stores the default Matcher instance used to match mocks.
+// DefaultMatcher stores the default Matcher instance used to match mocks.
 var DefaultMatcher = NewMatcher()
 
 // MatchFunc represents the required function
