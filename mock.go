@@ -84,17 +84,17 @@ func (e *Mocker) Match(req *http.Request) (bool, error) {
 		return false, nil
 	}
 
-	// Map
-	for _, mapper := range e.request.Mappers {
-		if treq := mapper(req); treq != nil {
-			req = treq
-		}
-	}
-
 	// Filter
 	for _, filter := range e.request.Filters {
 		if !filter(req) {
 			return false, nil
+		}
+	}
+
+	// Map
+	for _, mapper := range e.request.Mappers {
+		if treq := mapper(req); treq != nil {
+			req = treq
 		}
 	}
 
