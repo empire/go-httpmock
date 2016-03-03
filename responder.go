@@ -14,6 +14,13 @@ func Responder(req *http.Request, mock *Response, res *http.Response) (*http.Res
 		res = createResponse(req)
 	}
 
+	// Apply response filter
+	for _, filter := range mock.Filters {
+		if !filter(res) {
+			return res, nil
+		}
+	}
+
 	// Define mock status code
 	if mock.StatusCode != 0 {
 		res.Status = strconv.Itoa(mock.StatusCode) + " " + http.StatusText(mock.StatusCode)
@@ -27,6 +34,13 @@ func Responder(req *http.Request, mock *Response, res *http.Response) (*http.Res
 	if len(mock.BodyBuffer) > 0 {
 		res.ContentLength = int64(len(mock.BodyBuffer))
 		res.Body = createReadCloser(mock.BodyBuffer)
+	}
+
+	// Apply response mappers
+	for _, mapper := range mock.Mappers {
+		if tres := mapper(res); tres != nil {
+			res = tres
+		}
 	}
 
 	// Sleep request if necessary
