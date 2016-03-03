@@ -1,6 +1,9 @@
 package gock
 
-import "net/http"
+import (
+	"net/http"
+	"sync"
+)
 
 // Mock represents the required interface that must
 // be implemented by HTTP mock instances.
@@ -30,6 +33,9 @@ type Mocker struct {
 	// disabled stores if the current mock is disabled.
 	disabled bool
 
+	// mutex stores the mock mutex for thread safity.
+	mutex *sync.Mutex
+
 	// matcher stores a Matcher capable instance to match the given http.Request.
 	matcher Matcher
 
@@ -46,6 +52,7 @@ func NewMock(req *Request, res *Response) *Mocker {
 	mock := &Mocker{
 		request:  req,
 		response: res,
+		mutex:    &sync.Mutex{},
 		matcher:  DefaultMatcher,
 	}
 	res.Mock = mock
@@ -55,53 +62,55 @@ func NewMock(req *Request, res *Response) *Mocker {
 }
 
 // Disable disables the current mock manually.
-func (e *Mocker) Disable() {
-	e.disabled = true
+func (m *Mocker) Disable() {
+	m.disabled = true
 }
 
 // Done returns true in case that the current mock
 // instance is disabled and therefore must be removed.
-func (e *Mocker) Done() bool {
-	return e.disabled || (!e.request.Persisted && e.request.Counter == 0)
+func (m *Mocker) Done() bool {
+	return m.disabled || (!m.request.Persisted && m.request.Counter == 0)
 }
 
 // Request returns the Request instance
 // configured for the current HTTP mock.
-func (e *Mocker) Request() *Request {
-	return e.request
+func (m *Mocker) Request() *Request {
+	return m.request
 }
 
 // Response returns the Response instance
 // configured for the current HTTP mock.
-func (e *Mocker) Response() *Response {
-	return e.response
+func (m *Mocker) Response() *Response {
+	return m.response
 }
 
 // Match matches the given http.Request with the current Request
 // mock expectation, returning true if matches.
-func (e *Mocker) Match(req *http.Request) (bool, error) {
-	if e.disabled {
+func (m *Mocker) Match(req *http.Request) (bool, error) {
+	if m.disabled {
 		return false, nil
 	}
 
 	// Filter
-	for _, filter := range e.request.Filters {
+	for _, filter := range m.request.Filters {
 		if !filter(req) {
 			return false, nil
 		}
 	}
 
 	// Map
-	for _, mapper := range e.request.Mappers {
+	for _, mapper := range m.request.Mappers {
 		if treq := mapper(req); treq != nil {
 			req = treq
 		}
 	}
 
 	// Match
-	matches, err := e.matcher.Match(req, e.request)
+	matches, err := m.matcher.Match(req, m.request)
 	if matches {
-		e.decrement()
+		m.mutex.Lock()
+		m.decrement()
+		m.mutex.Unlock()
 	}
 
 	return matches, err
@@ -109,24 +118,24 @@ func (e *Mocker) Match(req *http.Request) (bool, error) {
 
 // SetMatcher sets a new matcher implementation
 // for the current mock expectation.
-func (e *Mocker) SetMatcher(matcher Matcher) {
-	e.matcher = matcher
+func (m *Mocker) SetMatcher(matcher Matcher) {
+	m.matcher = matcher
 }
 
 // AddMatcher adds a new matcher function
 // for the current mock expectation.
-func (e *Mocker) AddMatcher(fn MatchFunc) {
-	e.matcher.Add(fn)
+func (m *Mocker) AddMatcher(fn MatchFunc) {
+	m.matcher.Add(fn)
 }
 
 // decrement decrements the current mock Request counter.
-func (e *Mocker) decrement() {
-	if e.request.Persisted {
+func (m *Mocker) decrement() {
+	if m.request.Persisted {
 		return
 	}
 
-	e.request.Counter--
-	if e.request.Counter == 0 {
-		e.disabled = true
+	m.request.Counter--
+	if m.request.Counter == 0 {
+		m.disabled = true
 	}
 }

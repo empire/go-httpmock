@@ -52,9 +52,7 @@ type Response struct {
 
 // NewResponse creates a new Response.
 func NewResponse() *Response {
-	return &Response{
-		Header: make(http.Header),
-	}
+	return &Response{Header: make(http.Header)}
 }
 
 // Status defines the desired HTTP status code to reply in the current response.
@@ -98,15 +96,15 @@ func (r *Response) BodyString(body string) *Response {
 
 // JSON defines the response body based on a JSON based input.
 func (r *Response) JSON(data interface{}) *Response {
-	r.BodyBuffer, r.Error = readAndDecode(data, "json")
 	r.Header.Set("Content-Type", "application/json")
+	r.BodyBuffer, r.Error = readAndDecode(data, "json")
 	return r
 }
 
 // XML defines the response body based on a XML based input.
 func (r *Response) XML(data interface{}) *Response {
-	r.BodyBuffer, r.Error = readAndDecode(data, "xml")
 	r.Header.Set("Content-Type", "application/xml")
+	r.BodyBuffer, r.Error = readAndDecode(data, "xml")
 	return r
 }
 

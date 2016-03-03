@@ -7,7 +7,8 @@ import (
 	"gopkg.in/h2non/gock.v0"
 )
 
-// Usage with gentleman HTTP client toolkit:
+// Usege example with gentleman HTTP client toolkit.
+// See also: https://github.com/h2non/gentleman-mock
 func main() {
 	defer gock.Disable()
 

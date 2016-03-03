@@ -166,21 +166,25 @@ func (r *Request) MatchHeaders(headers map[string]string) *Request {
 
 // MatchParam defines a new key and value URL query param to match.
 func (r *Request) MatchParam(key, value string) *Request {
-	r.URLStruct.Query().Set(key, value)
+	query := r.URLStruct.Query()
+	query.Set(key, value)
+	r.URLStruct.RawQuery = query.Encode()
 	return r
 }
 
 // MatchParams defines a map of URL query param key-value to match.
 func (r *Request) MatchParams(params map[string]string) *Request {
+	query := r.URLStruct.Query()
 	for key, value := range params {
-		r.URLStruct.Query().Set(key, value)
+		query.Set(key, value)
 	}
+	r.URLStruct.RawQuery = query.Encode()
 	return r
 }
 
 // ParamPresent matches if the given query param key is present in the URL.
 func (r *Request) ParamPresent(key string) *Request {
-	r.URLStruct.Query().Set(key, ".*")
+	r.MatchParam(key, ".*")
 	return r
 }
 
