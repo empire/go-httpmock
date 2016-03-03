@@ -11,11 +11,11 @@ func main() {
 
 	gock.New("http://httpbin.org").
 		Get("/").
-		AddMatcher(func(req *http.Request, ereq *gock.Request) bool {
-			return req.URL.Scheme == "http"
+		AddMatcher(func(req *http.Request, ereq *gock.Request) (bool, error) {
+			return req.URL.Scheme == "http", nil
 		}).
-		AddMatcher(func(req *http.Request, ereq *gock.Request) bool {
-			return req.Method == ereq.Method
+		AddMatcher(func(req *http.Request, ereq *gock.Request) (bool, error) {
+			return req.Method == ereq.Method, nil
 		}).
 		Reply(204).
 		SetHeader("Server", "gock")
