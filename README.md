@@ -20,6 +20,7 @@ Note: still beta, needs more docs and test coverage.
 - Ability to switch between mock and real networking modes.
 - Supports map and filters to handle mocks easily.
 - Wide compatible HTTP interceptor using `http.RoundTripper` interface.
+- Works with any `net/http` compatible client, such as [gentleman](https://github.com/h2non/gentleman).
 - Network delay simulation (beta).
 - Extensible and hackable API.
 
