@@ -13,6 +13,18 @@ func TestNewMatcher(t *testing.T) {
 	st.Expect(t, matcher.Get(), Matchers)
 }
 
+func TestNewBasicMatcher(t *testing.T) {
+	matcher := NewBasicMatcher()
+	st.Expect(t, matcher.Matchers, MatchersHeader)
+	st.Expect(t, matcher.Get(), MatchersHeader)
+}
+
+func TestNewEmptyMatcher(t *testing.T) {
+	matcher := NewEmptyMatcher()
+	st.Expect(t, len(matcher.Matchers), 0)
+	st.Expect(t, len(matcher.Get()), 0)
+}
+
 func TestMatcherAdd(t *testing.T) {
 	matcher := NewMatcher()
 	st.Expect(t, len(matcher.Matchers), len(Matchers))
