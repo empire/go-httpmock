@@ -1,3 +1,8 @@
+## 0.1.2 / 04-03-2016
+
+- fix(matcher): body matchers no used by default.
+- feat(matcher): add matcher factories for multiple cases. 
+
 ## 0.1.1 / 04-03-2016
 
 - fix(params): persist query params accordingly. 
