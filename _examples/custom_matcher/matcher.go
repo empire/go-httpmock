@@ -19,7 +19,7 @@ func main() {
 
 	// Define the mock
 	gock.New("http://httpbin.org").
-		UseMatcher(matcher).
+		SetMatcher(matcher).
 		Get("/").
 		Reply(204).
 		SetHeader("Server", "gock")

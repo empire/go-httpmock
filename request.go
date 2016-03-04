@@ -206,7 +206,7 @@ func (r *Request) AddMatcher(fn MatchFunc) *Request {
 	return r
 }
 
-// SetMatcher adds a new matcher function to match the request.
+// SetMatcher sets a new matcher function to match the request.
 func (r *Request) SetMatcher(matcher Matcher) *Request {
 	r.Mock.SetMatcher(matcher)
 	return r

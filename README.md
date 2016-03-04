@@ -1,11 +1,9 @@
-# gock [![Build Status](https://travis-ci.org/h2non/gock.png)](https://travis-ci.org/h2non/gock) [![GitHub release](https://img.shields.io/badge/version-0.1.1-orange.svg?style=flat)](https://github.com/h2non/gock/releases) [![GoDoc](https://godoc.org/github.com/h2non/gock?status.svg)](https://godoc.org/github.com/h2non/gock) [![Coverage Status](https://coveralls.io/repos/github/h2non/gock/badge.svg?branch=master)](https://coveralls.io/github/h2non/gock?branch=master) [![Go Report Card](https://img.shields.io/badge/go_report-A+-brightgreen.svg)](https://goreportcard.com/report/github.com/h2non/gock)
+# gock [![Build Status](https://travis-ci.org/h2non/gock.png)](https://travis-ci.org/h2non/gock) [![GitHub release](https://img.shields.io/badge/version-0.1.2-orange.svg?style=flat)](https://github.com/h2non/gock/releases) [![GoDoc](https://godoc.org/github.com/h2non/gock?status.svg)](https://godoc.org/github.com/h2non/gock) [![Coverage Status](https://coveralls.io/repos/github/h2non/gock/badge.svg?branch=master)](https://coveralls.io/github/h2non/gock?branch=master) [![Go Report Card](https://img.shields.io/badge/go_report-A+-brightgreen.svg)](https://goreportcard.com/report/github.com/h2non/gock)
 
 Versatile HTTP mocking made easy for [Go](https://golang.org). 
 Heavily inspired by [nock](https://github.com/pgte/nock).
 
 Take a look to the [examples](#examples) to get started.
-
-Sill beta.
 
 ## Features  
 
