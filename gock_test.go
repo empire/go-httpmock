@@ -254,6 +254,9 @@ func TestMultipleMocks(t *testing.T) {
 		body, _ := ioutil.ReadAll(res.Body)
 		st.Expect(t, string(body)[:15], `{"value":"`+test.path[1:]+`"}`)
 	}
+
+	_, err := http.Get("http://server.com/foo")
+	st.Reject(t, err, nil)
 }
 
 func TestInterceptClient(t *testing.T) {
