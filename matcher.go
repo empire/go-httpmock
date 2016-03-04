@@ -2,13 +2,21 @@ package gock
 
 import "net/http"
 
-// Matchers stores the list of built-in mock matchers.
-var Matchers = []MatchFunc{
+// MatchersHeader exposes an slice of HTTP header specific mock matchers.
+var MatchersHeader = []MatchFunc{
 	MatchMethod,
 	MatchHost,
 	MatchPath,
 	MatchHeaders,
 }
+
+// MatcherBody exposes an slice of HTTP body specific built-in mock matchers.
+var MatchersBody = []MatchFunc{
+	MatchBody,
+}
+
+// Matchers stores all the built-in mock matchers.
+var Matchers = append(MatchersHeader, MatchersBody...)
 
 // DefaultMatcher stores the default Matcher instance used to match mocks.
 var DefaultMatcher = NewMatcher()
@@ -37,39 +45,49 @@ type Matcher interface {
 
 // MockMatcher implements a mock matcher
 type MockMatcher struct {
-	matchers []MatchFunc
+	Matchers []MatchFunc
 }
 
 // NewMatcher creates a new mock matcher
 // using the default matcher functions.
 func NewMatcher() *MockMatcher {
-	return &MockMatcher{matchers: Matchers}
+	return &MockMatcher{Matchers: Matchers}
+}
+
+// NewBasicMatcher creates a new matcher with header only mock matchers.
+func NewBasicMatcher() *MockMatcher {
+	return &MockMatcher{Matchers: MatchersHeader}
+}
+
+// NewEmptyMatcher creates a new empty matcher with out default amtchers.
+func NewEmptyMatcher() *MockMatcher {
+	return &MockMatcher{Matchers: []MatchFunc{}}
 }
 
 // Get returns a slice of registered function matchers.
 func (m *MockMatcher) Get() []MatchFunc {
-	return m.matchers
+	return m.Matchers
 }
 
 // Add adds a new function matcher.
 func (m *MockMatcher) Add(fn MatchFunc) {
-	m.matchers = append(m.matchers, fn)
+	m.Matchers = append(m.Matchers, fn)
 }
 
 // Set sets a new stack of matchers functions.
 func (m *MockMatcher) Set(stack []MatchFunc) {
-	m.matchers = stack
+	m.Matchers = stack
 }
 
 // Flush flushes the current matcher
 func (m *MockMatcher) Flush() {
-	m.matchers = []MatchFunc{}
+	m.Matchers = []MatchFunc{}
 }
 
 // Match matches the given http.Request with a mock request
 // returning true in case that the request matches, otherwise false.
 func (m *MockMatcher) Match(req *http.Request, ereq *Request) (bool, error) {
-	for _, matcher := range m.matchers {
+	for _, matcher := range m.Matchers {
 		matches, err := matcher(req, ereq)
 		if err != nil {
 			return false, err

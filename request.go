@@ -206,6 +206,12 @@ func (r *Request) AddMatcher(fn MatchFunc) *Request {
 	return r
 }
 
+// SetMatcher adds a new matcher function to match the request.
+func (r *Request) SetMatcher(matcher Matcher) *Request {
+	r.Mock.SetMatcher(matcher)
+	return r
+}
+
 // Map adds a new request mapper function to map http.Request before the matching process.
 func (r *Request) Map(fn MapRequestFunc) *Request {
 	r.Mappers = append(r.Mappers, fn)

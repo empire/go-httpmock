@@ -41,6 +41,13 @@ func TestMockBodyMatch(t *testing.T) {
 	st.Expect(t, string(body), "foo foo")
 }
 
+func TestMockBodyCannotMatch(t *testing.T) {
+	defer after()
+	New("http://foo.com").BodyString("foo foo").Reply(201).BodyString("foo foo")
+	_, err := http.Post("http://foo.com", "text/plain", bytes.NewBuffer([]byte("foo bar")))
+	st.Reject(t, err, nil)
+}
+
 func TestMockBodyMatchJSON(t *testing.T) {
 	defer after()
 	New("http://foo.com").
@@ -54,6 +61,18 @@ func TestMockBodyMatchJSON(t *testing.T) {
 	st.Expect(t, res.StatusCode, 201)
 	body, _ := ioutil.ReadAll(res.Body)
 	st.Expect(t, string(body)[:13], `{"bar":"foo"}`)
+}
+
+func TestMockBodyCannotMatchJSON(t *testing.T) {
+	defer after()
+	New("http://foo.com").
+		Post("/bar").
+		JSON(map[string]string{"bar": "bar"}).
+		Reply(201).
+		JSON(map[string]string{"bar": "foo"})
+
+	_, err := http.Post("http://foo.com/bar", "application/json", bytes.NewBuffer([]byte(`{"foo":"bar"}`)))
+	st.Reject(t, err, nil)
 }
 
 func TestMockMatchHeaders(t *testing.T) {

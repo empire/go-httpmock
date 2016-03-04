@@ -9,13 +9,13 @@ import (
 
 func TestNewMatcher(t *testing.T) {
 	matcher := NewMatcher()
-	st.Expect(t, matcher.matchers, Matchers)
+	st.Expect(t, matcher.Matchers, Matchers)
 	st.Expect(t, matcher.Get(), Matchers)
 }
 
 func TestMatcherAdd(t *testing.T) {
 	matcher := NewMatcher()
-	st.Expect(t, len(matcher.matchers), len(Matchers))
+	st.Expect(t, len(matcher.Matchers), len(Matchers))
 	matcher.Add(func(req *http.Request, ereq *Request) (bool, error) {
 		return true, nil
 	})
@@ -25,9 +25,9 @@ func TestMatcherAdd(t *testing.T) {
 func TestMatcherSet(t *testing.T) {
 	matcher := NewMatcher()
 	matchers := []MatchFunc{}
-	st.Expect(t, len(matcher.matchers), len(Matchers))
+	st.Expect(t, len(matcher.Matchers), len(Matchers))
 	matcher.Set(matchers)
-	st.Expect(t, matcher.matchers, matchers)
+	st.Expect(t, matcher.Matchers, matchers)
 	st.Expect(t, len(matcher.Get()), 0)
 }
 
@@ -40,7 +40,7 @@ func TestMatcherGet(t *testing.T) {
 
 func TestMatcherFlush(t *testing.T) {
 	matcher := NewMatcher()
-	st.Expect(t, len(matcher.matchers), len(Matchers))
+	st.Expect(t, len(matcher.Matchers), len(Matchers))
 	matcher.Add(func(req *http.Request, ereq *Request) (bool, error) {
 		return true, nil
 	})
@@ -65,7 +65,7 @@ func TestMatcher(t *testing.T) {
 
 	matcher := NewMatcher()
 	matcher.Flush()
-	st.Expect(t, len(matcher.matchers), 0)
+	st.Expect(t, len(matcher.Matchers), 0)
 
 	matcher.Add(func(req *http.Request, ereq *Request) (bool, error) {
 		return req.Method == "GET", nil
@@ -102,7 +102,7 @@ func TestMatchMock(t *testing.T) {
 
 	matcher := DefaultMatcher
 	matcher.Flush()
-	st.Expect(t, len(matcher.matchers), 0)
+	st.Expect(t, len(matcher.Matchers), 0)
 
 	matcher.Add(func(req *http.Request, ereq *Request) (bool, error) {
 		return req.Method == "GET", nil
@@ -130,5 +130,5 @@ func TestMatchMock(t *testing.T) {
 		}
 	}
 
-	DefaultMatcher.matchers = Matchers
+	DefaultMatcher.Matchers = Matchers
 }

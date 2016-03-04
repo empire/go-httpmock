@@ -6,6 +6,9 @@ import (
 	"regexp"
 )
 
+// EOL represents the end of line character.
+const EOL = 0xa
+
 // BodyTypes stores the supported MIME body types for matching.
 // Currently only text-based types.
 var BodyTypes = []string{
@@ -83,7 +86,7 @@ func MatchQueryParams(req *http.Request, ereq *Request) (bool, error) {
 }
 
 // MatchBody tries to match the request body.
-// TODO: needs several improvements
+// TODO: not too smart now, needs several improvements.
 func MatchBody(req *http.Request, ereq *Request) (bool, error) {
 	// If match body is empty, just continue
 	if req.Method == "GET" || len(ereq.BodyBuffer) == 0 {
@@ -110,8 +113,8 @@ func MatchBody(req *http.Request, ereq *Request) (bool, error) {
 	}
 
 	// Match body by atomic string comparison
-	bodyStr := string(body)[:len(body)-1]
-	matchStr := string(ereq.BodyBuffer)
+	bodyStr := castToString(body)
+	matchStr := castToString(ereq.BodyBuffer)
 	if bodyStr == matchStr {
 		return true, nil
 	}
@@ -133,4 +136,13 @@ func supportedType(req *http.Request) bool {
 		}
 	}
 	return false
+}
+
+func castToString(buf []byte) string {
+	str := string(buf)
+	tail := len(str) - 1
+	if str[tail] == EOL {
+		str = str[:tail]
+	}
+	return str
 }

@@ -5,9 +5,9 @@ Heavily inspired by [nock](https://github.com/pgte/nock).
 
 Take a look to the [examples](#examples) to get started.
 
-Note: still beta, needs more docs and test coverage.
+Sill beta.
 
-## Features
+## Features  
 
 - Simple, expressive, fluent API.
 - Semantic DSL for easy HTTP mocks definition.

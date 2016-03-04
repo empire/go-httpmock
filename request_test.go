@@ -181,6 +181,33 @@ func TestRequestMethods(t *testing.T) {
 	st.Expect(t, req.URLStruct.Path, "/foo")
 }
 
+func TestRequestSetMatcher(t *testing.T) {
+	defer after()
+
+	matcher := NewEmptyMatcher()
+	matcher.Add(func(req *http.Request, ereq *Request) (bool, error) {
+		return req.URL.Host == "foo.com", nil
+	})
+	matcher.Add(func(req *http.Request, ereq *Request) (bool, error) {
+		return req.Header.Get("foo") == "bar", nil
+	})
+	ereq := NewRequest()
+	mock := NewMock(ereq, &Response{})
+	mock.SetMatcher(matcher)
+	ereq.Mock = mock
+
+	headers := make(http.Header)
+	headers.Set("foo", "bar")
+	req := &http.Request{
+		URL:    &url.URL{Host: "foo.com", Path: "/bar"},
+		Header: headers,
+	}
+
+	match, err := ereq.Mock.Match(req)
+	st.Expect(t, err, nil)
+	st.Expect(t, match, true)
+}
+
 func TestRequestAddMatcher(t *testing.T) {
 	defer after()
 

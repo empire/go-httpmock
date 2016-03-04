@@ -25,6 +25,9 @@ type Mock interface {
 
 	// AddMatcher adds a new matcher function.
 	AddMatcher(MatchFunc)
+
+	// SetMatcher uses a new matcher implementation.
+	SetMatcher(Matcher)
 }
 
 // Mocker implements a Mock capable interface providing
