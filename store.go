@@ -54,6 +54,17 @@ func Flush() {
 	mocks = []Mock{}
 }
 
+// Pending return an slice of pending mocks.
+func Pending() []Mock {
+	Clean()
+	return mocks
+}
+
+// IsPending returns true if there are pending mocks.
+func IsPending() bool {
+	return len(Pending()) > 0
+}
+
 // Clean cleans the mocks store removing disabled or obsolete mocks.
 func Clean() {
 	mutex.Lock()
