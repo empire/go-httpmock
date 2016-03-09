@@ -113,7 +113,9 @@ func (r *Request) Head(path string) *Request {
 
 // method is a DRY shortcut used to declare the expected HTTP method and URL path.
 func (r *Request) method(method, path string) *Request {
-	r.URLStruct.Path = path
+	if path != "/" {
+		r.URLStruct.Path = path
+	}
 	r.Method = strings.ToUpper(method)
 	return r
 }
