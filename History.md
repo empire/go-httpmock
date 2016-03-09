@@ -1,3 +1,7 @@
+## 0.1.3 / 09-03-2016
+
+- feat(matcher): add content type matcher helper method supporting aliases. 
+
 ## 0.1.2 / 04-03-2016
 
 - fix(matcher): body matchers no used by default.
