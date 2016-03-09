@@ -20,6 +20,16 @@ var BodyTypes = []string{
 	"application/x-www-form-urlencoded",
 }
 
+// BodyTypeAliases stores a generic MIME type by alias.
+var BodyTypeAliases = map[string]string{
+	"html": "text/html",
+	"text": "text/plain",
+	"json": "application/json",
+	"xml":  "application/xml",
+	"form": "multipart/form-data",
+	"url":  "application/x-www-form-urlencoded",
+}
+
 // MatchMethod matches the HTTP method of the given request.
 func MatchMethod(req *http.Request, ereq *Request) (bool, error) {
 	return ereq.Method == "" || req.Method == ereq.Method, nil

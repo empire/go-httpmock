@@ -61,6 +61,17 @@ func (r *Response) Status(code int) *Response {
 	return r
 }
 
+// Type defines the response Content-Type MIME header field.
+// Supports type alias. E.g: json, xml, form, text...
+func (r *Response) Type(kind string) *Response {
+	mime := BodyTypeAliases[kind]
+	if mime != "" {
+		kind = mime
+	}
+	r.Header.Set("Content-Type", kind)
+	return r
+}
+
 // SetHeader sets a new header field in the mock response.
 func (r *Response) SetHeader(key, value string) *Response {
 	r.Header.Set(key, value)

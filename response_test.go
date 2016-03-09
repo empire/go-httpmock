@@ -32,6 +32,20 @@ func TestResponseStatus(t *testing.T) {
 	st.Expect(t, res.StatusCode, 200)
 }
 
+func TestResponseType(t *testing.T) {
+	res := NewResponse()
+	res.Type("json")
+	st.Expect(t, res.Header.Get("Content-Type"), "application/json")
+
+	res = NewResponse()
+	res.Type("xml")
+	st.Expect(t, res.Header.Get("Content-Type"), "application/xml")
+
+	res = NewResponse()
+	res.Type("foo/bar")
+	st.Expect(t, res.Header.Get("Content-Type"), "foo/bar")
+}
+
 func TestResponseSetHeader(t *testing.T) {
 	res := NewResponse()
 	res.SetHeader("foo", "bar")

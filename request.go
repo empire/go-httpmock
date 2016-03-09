@@ -144,6 +144,17 @@ func (r *Request) XML(data interface{}) *Request {
 	return r
 }
 
+// MatchType defines the request Content-Type MIME header field.
+// Supports type alias. E.g: json, xml, form, text...
+func (r *Request) MatchType(kind string) *Request {
+	mime := BodyTypeAliases[kind]
+	if mime != "" {
+		kind = mime
+	}
+	r.Header.Set("Content-Type", kind)
+	return r
+}
+
 // MatchHeader defines a new key and value header to match.
 func (r *Request) MatchHeader(key, value string) *Request {
 	r.Header.Set(key, value)

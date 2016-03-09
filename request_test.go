@@ -63,6 +63,20 @@ func TestRequestXML(t *testing.T) {
 	st.Expect(t, req.Header.Get("Content-Type"), "application/xml")
 }
 
+func TestRequestMatchType(t *testing.T) {
+	req := NewRequest()
+	req.MatchType("json")
+	st.Expect(t, req.Header.Get("Content-Type"), "application/json")
+
+	req = NewRequest()
+	req.MatchType("html")
+	st.Expect(t, req.Header.Get("Content-Type"), "text/html")
+
+	req = NewRequest()
+	req.MatchType("foo/bar")
+	st.Expect(t, req.Header.Get("Content-Type"), "foo/bar")
+}
+
 func TestRequestMatchHeader(t *testing.T) {
 	req := NewRequest()
 	req.MatchHeader("foo", "bar")
