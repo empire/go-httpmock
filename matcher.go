@@ -5,6 +5,7 @@ import "net/http"
 // MatchersHeader exposes an slice of HTTP header specific mock matchers.
 var MatchersHeader = []MatchFunc{
 	MatchMethod,
+	MatchScheme,
 	MatchHost,
 	MatchPath,
 	MatchHeaders,

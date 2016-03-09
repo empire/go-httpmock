@@ -29,6 +29,28 @@ func TestMatchMethod(t *testing.T) {
 	}
 }
 
+func TestMatchScheme(t *testing.T) {
+	cases := []struct {
+		value   string
+		scheme  string
+		matches bool
+	}{
+		{"http", "http", true},
+		{"https", "https", true},
+		{"http", "https", false},
+		{"", "https", true},
+		{"https", "", true},
+	}
+
+	for _, test := range cases {
+		req := &http.Request{URL: &url.URL{Scheme: test.scheme}}
+		ereq := &Request{URLStruct: &url.URL{Scheme: test.value}}
+		matches, err := MatchScheme(req, ereq)
+		st.Expect(t, err, nil)
+		st.Expect(t, matches, test.matches)
+	}
+}
+
 func TestMatchHost(t *testing.T) {
 	cases := []struct {
 		value   string

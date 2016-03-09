@@ -3,6 +3,7 @@ package gock
 import (
 	"net/http"
 	"net/url"
+	"regexp"
 	"sync"
 )
 
@@ -22,7 +23,7 @@ func New(uri string) *Request {
 
 	res := NewResponse()
 	req := NewRequest()
-	req.URLStruct, res.Error = url.Parse(uri)
+	req.URLStruct, res.Error = url.Parse(normalizeURI(uri))
 
 	// Create the new mock expectation
 	exp := NewMock(req, res)
@@ -95,4 +96,11 @@ func DisableNetworkingFilters() {
 	mutex.Lock()
 	defer mutex.Unlock()
 	config.NetworkingFilters = []FilterRequestFunc{}
+}
+
+func normalizeURI(uri string) string {
+	if ok, _ := regexp.MatchString("^http[s]?", uri); !ok {
+		return "http://" + uri
+	}
+	return uri
 }

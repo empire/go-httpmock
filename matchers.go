@@ -35,6 +35,11 @@ func MatchMethod(req *http.Request, ereq *Request) (bool, error) {
 	return ereq.Method == "" || req.Method == ereq.Method, nil
 }
 
+// MatchScheme matches the request URL protocol scheme.
+func MatchScheme(req *http.Request, ereq *Request) (bool, error) {
+	return ereq.URLStruct.Scheme == "" || req.URL.Scheme == "" || ereq.URLStruct.Scheme == req.URL.Scheme, nil
+}
+
 // MatchHost matches the HTTP host header field of the given request.
 func MatchHost(req *http.Request, ereq *Request) (bool, error) {
 	url := ereq.URLStruct
