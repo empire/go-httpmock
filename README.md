@@ -120,6 +120,7 @@ func TestMockSimple(t *testing.T) {
   defer gock.Disable()
   gock.New("http://foo.com").
     Post("/bar").
+    Type("json").
     JSON(map[string]string{"foo": "bar"}).
     Reply(201).
     JSON(map[string]string{"bar": "foo"})
