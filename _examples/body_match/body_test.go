@@ -14,7 +14,7 @@ func TestMockSimple(t *testing.T) {
 
 	gock.New("http://foo.com").
 		Post("/bar").
-		Type("json").
+		MatchType("json").
 		JSON(map[string]string{"foo": "bar"}).
 		Reply(201).
 		JSON(map[string]string{"bar": "foo"})

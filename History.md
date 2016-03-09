@@ -4,6 +4,7 @@
 - feat(interceptor): add function to restore HTTP client transport.
 - feat(matcher): add URL scheme matcher function.
 - fix(request): ignore base slash path.
+- feat(api): add Off() method for easier restore and clean up.
 
 ## 0.1.2 / 04-03-2016
 
