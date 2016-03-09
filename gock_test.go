@@ -21,6 +21,13 @@ func TestMockSimple(t *testing.T) {
 	st.Expect(t, string(body)[:13], `{"foo":"bar"}`)
 }
 
+func TestMockOff(t *testing.T) {
+	New("http://foo.com").Reply(201).JSON(map[string]string{"foo": "bar"})
+	Off()
+	_, err := http.Get("http://127.0.0.1:3123")
+	st.Reject(t, err, nil)
+}
+
 func TestMockBodyStringResponse(t *testing.T) {
 	defer after()
 	New("http://foo.com").Reply(200).BodyString("foo bar")

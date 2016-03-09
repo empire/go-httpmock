@@ -10,6 +10,7 @@ func main() {
 	defer gock.Disable()
 	defer gock.Flush() // Flush all the registered mocks, including the pending ones.
 	defer gock.Clean() // Clean all the finished mocks, but keeping the pending ones.
+	// defer gock.Off() -> Or you can simply call Off() method
 
 	gock.New("http://httpbin.org").
 		Get("/get").

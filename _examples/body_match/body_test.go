@@ -10,7 +10,8 @@ import (
 )
 
 func TestMockSimple(t *testing.T) {
-	defer gock.Disable()
+	defer gock.Off()
+
 	gock.New("http://foo.com").
 		Post("/bar").
 		Type("json").

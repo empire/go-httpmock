@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	defer gock.Disable()
+	defer gock.Off()
 
 	gock.New("http://httpbin.org").
 		Get("/get").

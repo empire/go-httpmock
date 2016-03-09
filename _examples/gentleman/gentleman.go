@@ -10,7 +10,7 @@ import (
 // Usege example with gentleman HTTP client toolkit.
 // See also: https://github.com/h2non/gentleman-mock
 func main() {
-	defer gock.Disable()
+	defer gock.Off()
 
 	gock.New("http://httpbin.org").
 		Get("/*").

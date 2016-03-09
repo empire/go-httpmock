@@ -51,7 +51,8 @@ import (
 )
 
 func TestSimple(t *testing.T) {
-  defer gock.Disable()
+  defer gock.Off()
+
   gock.New("http://foo.com").
     Get("/bar").
     Reply(200).
@@ -80,7 +81,7 @@ import (
 )
 
 func TestMatchHeaders(t *testing.T) {
-  defer gock.Disable()
+  defer gock.Off()
 
   gock.New("http://foo.com").
     MatchHeader("Authorization", "^foo bar$").
@@ -117,7 +118,8 @@ import (
 )
 
 func TestMockSimple(t *testing.T) {
-  defer gock.Disable()
+  defer gock.Off()
+
   gock.New("http://foo.com").
     Post("/bar").
     Type("json").
@@ -149,7 +151,7 @@ import (
 )
 
 func TestClient(t *testing.T) {
-  defer gock.Disable()
+  defer gock.Off()
 
   gock.New("http://foo.com").
     Reply(200).
@@ -180,7 +182,7 @@ import (
 )
 
 func main() {
-  defer gock.Disable()
+  defer gock.Off()
   defer gock.DisableNetworking()
 
   gock.EnableNetworking()

@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	defer gock.Disable()
+	defer gock.Off()
 
 	// Create a new custom matcher with HTTP headers only matchers
 	matcher := gock.NewBasicMatcher()

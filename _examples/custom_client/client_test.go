@@ -9,7 +9,7 @@ import (
 )
 
 func TestClient(t *testing.T) {
-	defer gock.Disable()
+	defer gock.Off()
 
 	gock.New("http://foo.com").
 		Reply(200).
