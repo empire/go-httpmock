@@ -2,6 +2,7 @@
 
 - feat(matcher): add content type matcher helper method supporting aliases. 
 - feat(interceptor): add function to restore HTTP client transport.
+- feat(matcher): add URL scheme matcher function.
 
 ## 0.1.2 / 04-03-2016
 
