@@ -52,6 +52,16 @@ func InterceptClient(cli *http.Client) {
 	cli.Transport = trans
 }
 
+// RestoreClient allows the developer to disable and restore the
+// original transport in the given http.Client.
+func RestoreClient(cli *http.Client) {
+	trans, ok := cli.Transport.(*Transport)
+	if !ok {
+		return
+	}
+	cli.Transport = trans.Transport
+}
+
 // Disable disables HTTP traffic interception by gock.
 func Disable() {
 	mutex.Lock()

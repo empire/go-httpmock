@@ -274,6 +274,25 @@ func TestInterceptClient(t *testing.T) {
 	st.Expect(t, res.StatusCode, 204)
 }
 
+func TestRestoreClient(t *testing.T) {
+	defer after()
+
+	New("http://foo.com").Reply(204)
+	st.Expect(t, len(GetAll()), 1)
+
+	req, err := http.NewRequest("GET", "http://foo.com", nil)
+	client := &http.Client{Transport: &http.Transport{}}
+	InterceptClient(client)
+	trans := client.Transport
+
+	res, err := client.Do(req)
+	st.Expect(t, err, nil)
+	st.Expect(t, res.StatusCode, 204)
+
+	RestoreClient(client)
+	st.Reject(t, trans, client.Transport)
+}
+
 func TestMockRegExpMatching(t *testing.T) {
 	defer after()
 	New("http://foo.com").
