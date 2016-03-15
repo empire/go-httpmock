@@ -206,6 +206,12 @@ func main() {
 }
 ```
 
+## Hacking it!
+
+You can easily hack `gock` defining custom matcher functions with own matching rules. 
+
+See [add matcher functions](https://github.com/h2non/gock/blob/master/_examples/add_matchers/matchers.go) and [custom matching layer](https://github.com/h2non/gock/blob/master/_examples/custom_matcher/matcher.go) examples for further details.
+
 ## License 
 
 MIT - Tomas Aparicio
