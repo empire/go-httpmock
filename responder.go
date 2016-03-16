@@ -48,7 +48,7 @@ func Responder(req *http.Request, mock *Response, res *http.Response) (*http.Res
 		time.Sleep(mock.ResponseDelay)
 	}
 
-	return res, nil
+	return res, mock.Error
 }
 
 // createResponse creates a new http.Response with default fields.

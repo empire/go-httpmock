@@ -132,6 +132,12 @@ func (r *Request) BodyString(body string) *Request {
 	return r
 }
 
+// File defines the body to match based on the given file path string.
+func (r *Request) File(path string) *Request {
+	r.BodyBuffer, r.Error = ioutil.ReadFile(path)
+	return r
+}
+
 // JSON defines the JSON body to match based on a given structure.
 func (r *Request) JSON(data interface{}) *Request {
 	r.Header.Set("Content-Type", "application/json")

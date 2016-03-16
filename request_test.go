@@ -46,6 +46,12 @@ func TestRequestBodyString(t *testing.T) {
 	st.Expect(t, string(req.BodyBuffer), "foo bar")
 }
 
+func TestRequestFile(t *testing.T) {
+	req := NewRequest()
+	req.File("version.go")
+	st.Expect(t, string(req.BodyBuffer)[:12], "package gock")
+}
+
 func TestRequestJSON(t *testing.T) {
 	req := NewRequest()
 	req.JSON(map[string]string{"foo": "bar"})

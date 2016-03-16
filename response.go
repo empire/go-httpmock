@@ -105,6 +105,13 @@ func (r *Response) BodyString(body string) *Response {
 	return r
 }
 
+// File defines the response body reading the data
+// from disk based on the file path string.
+func (r *Response) File(path string) *Response {
+	r.BodyBuffer, r.Error = ioutil.ReadFile(path)
+	return r
+}
+
 // JSON defines the response body based on a JSON based input.
 func (r *Response) JSON(data interface{}) *Response {
 	r.Header.Set("Content-Type", "application/json")
@@ -126,6 +133,7 @@ func (r *Response) SetError(err error) *Response {
 }
 
 // Delay defines the response simulated delay.
+// This feature is still experimental and will be improved in the future.
 func (r *Response) Delay(delay time.Duration) *Response {
 	r.ResponseDelay = delay
 	return r

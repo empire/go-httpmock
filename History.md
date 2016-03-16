@@ -1,6 +1,8 @@
 ## 0.1.4 / 16-03-2016
 
 - feat(api): add `IsDone()` method.
+- fix(responder): return mock error if present.
+- feat(#4): support define request/response body from file disk.
 
 ## 0.1.3 / 09-03-2016
 
