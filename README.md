@@ -100,6 +100,9 @@ func TestMatchHeaders(t *testing.T) {
   st.Expect(t, res.StatusCode, 200)
   body, _ := ioutil.ReadAll(res.Body)
   st.Expect(t, string(body), "foo foo")
+
+  // Verify that we don't have pending mocks
+  st.Expect(t, gock.IsDone(), true)
 }
 ```
 
@@ -134,6 +137,9 @@ func TestMockSimple(t *testing.T) {
 
   resBody, _ := ioutil.ReadAll(res.Body)
   st.Expect(t, string(resBody)[:13], `{"bar":"foo"}`)
+
+  // Verify that we don't have pending mocks
+  st.Expect(t, gock.IsDone(), true)
 }
 ```
 
@@ -166,6 +172,9 @@ func TestClient(t *testing.T) {
   st.Expect(t, res.StatusCode, 200)
   body, _ := ioutil.ReadAll(res.Body)
   st.Expect(t, string(body), "foo foo")
+
+  // Verify that we don't have pending mocks
+  st.Expect(t, gock.IsDone(), true)
 }
 ```
 
@@ -203,6 +212,9 @@ func main() {
   // Response body is the original
   body, _ := ioutil.ReadAll(res.Body)
   fmt.Printf("Body: %s", string(body))
+
+  // Verify that we don't have pending mocks
+  st.Expect(t, gock.IsDone(), true)
 }
 ```
 

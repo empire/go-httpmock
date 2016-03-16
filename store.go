@@ -54,10 +54,15 @@ func Flush() {
 	mocks = []Mock{}
 }
 
-// Pending return an slice of pending mocks.
+// Pending returns an slice of pending mocks.
 func Pending() []Mock {
 	Clean()
 	return mocks
+}
+
+// IsDone returns true if all the registered mocks has been triggered successfully.
+func IsDone() bool {
+	return !IsPending()
 }
 
 // IsPending returns true if there are pending mocks.

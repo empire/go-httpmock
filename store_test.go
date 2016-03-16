@@ -47,6 +47,14 @@ func TestStoreIsPending(t *testing.T) {
 	st.Expect(t, IsPending(), false)
 }
 
+func TestStoreIsDone(t *testing.T) {
+	defer after()
+	New("foo")
+	st.Expect(t, IsDone(), false)
+	Flush()
+	st.Expect(t, IsDone(), true)
+}
+
 func TestStoreRemove(t *testing.T) {
 	defer after()
 	st.Expect(t, len(mocks), 0)

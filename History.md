@@ -1,3 +1,7 @@
+## 0.1.4 / 16-03-2016
+
+- feat(api): add `IsDone()` method.
+
 ## 0.1.3 / 09-03-2016
 
 - feat(matcher): add content type matcher helper method supporting aliases. 
