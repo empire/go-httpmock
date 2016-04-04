@@ -74,7 +74,7 @@ func mergeHeaders(res *http.Response, mres *Response) http.Header {
 // createReadCloser creates an io.ReadCloser from a byte slice that is suitable for use as an
 // http response body.
 func createReadCloser(body []byte) io.ReadCloser {
-	return &dummyReadCloser{bytes.NewReader(body)}
+	return &dummyReadCloser{body: bytes.NewReader(body)}
 }
 
 // dummyReadCloser is used internally as io.ReadCloser capable interface for bodies.

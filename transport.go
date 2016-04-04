@@ -6,6 +6,8 @@ import (
 	"sync"
 )
 
+// var mutex *sync.Mutex = &sync.Mutex{}
+
 var (
 	// DefaultTransport stores the default mock transport used by gock.
 	DefaultTransport = NewTransport()
@@ -27,7 +29,7 @@ var (
 // delegation, if needed.
 type Transport struct {
 	// mutex is used to make transport thread-safe of concurrent uses across goroutines.
-	mutex *sync.Mutex
+	mutex sync.Mutex
 
 	// Transport encapsulates the original http.RoundTripper transport interface for delegation.
 	Transport http.RoundTripper
@@ -35,13 +37,14 @@ type Transport struct {
 
 // NewTransport creates a new *Transport with no responders.
 func NewTransport() *Transport {
-	return &Transport{Transport: NativeTransport, mutex: &sync.Mutex{}}
+	return &Transport{Transport: NativeTransport}
 }
 
 // RoundTrip receives HTTP requests and routes them to the appropriate responder.  It is required to
 // implement the http.RoundTripper interface.  You will not interact with this directly, instead
 // the *http.Client you are using will call it for you.
 func (m *Transport) RoundTrip(req *http.Request) (*http.Response, error) {
+	// Just act as a proxy if not intercepting
 	if !Intercepting() {
 		return m.Transport.RoundTrip(req)
 	}

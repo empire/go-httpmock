@@ -37,7 +37,7 @@ type Mocker struct {
 	disabled bool
 
 	// mutex stores the mock mutex for thread safity.
-	mutex *sync.Mutex
+	mutex sync.Mutex
 
 	// matcher stores a Matcher capable instance to match the given http.Request.
 	matcher Matcher
@@ -55,7 +55,6 @@ func NewMock(req *Request, res *Response) *Mocker {
 	mock := &Mocker{
 		request:  req,
 		response: res,
-		mutex:    &sync.Mutex{},
 		matcher:  DefaultMatcher,
 	}
 	res.Mock = mock

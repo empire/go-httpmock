@@ -33,6 +33,32 @@ go get -u gopkg.in/h2non/gock.v0
 
 See [godoc reference](https://godoc.org/github.com/h2non/gock) for detailed API documentation.
 
+## Tips
+
+#### Testing
+
+Declare your mocks before you start declaring the concrete test logic:
+
+```go
+func TestFoo(t *testing.T) {
+  defer gock.Off() // Flush pending mocks after test execution
+
+  gock.New("http://server.com").
+    Get("/bar").
+    Reply(200).
+    JSON(map[string]string{"foo": "bar"})
+
+  // Your test code starts here...
+}
+``` 
+
+#### Race conditions
+
+If you're running concurrent code, be aware that your mocks are declared first to avoid unexpected 
+race conditions while configuring `gock` or intercepting custom HTTP clients.
+
+`gock` is not fully thread-safe, but sensible parts are. Any help making `gock` more reliable in this sense is highly appreciated.
+
 ## Examples
 
 See [examples](https://github.com/h2non/gock/tree/master/_examples) directory for more featured use cases.
