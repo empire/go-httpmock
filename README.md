@@ -16,6 +16,7 @@ Take a look to the [examples](#examples) to get started.
 - Match request by method, URL params, headers and bodies.
 - Extensible HTTP matching rules.
 - Ability to switch between mock and real networking modes.
+- Ability to filter/map HTTP requests for accurate mock matching.
 - Supports map and filters to handle mocks easily.
 - Wide compatible HTTP interceptor using `http.RoundTripper` interface.
 - Works with any `net/http` compatible client, such as [gentleman](https://github.com/h2non/gentleman).
