@@ -169,6 +169,17 @@ func TestRequestResponse(t *testing.T) {
 	st.Expect(t, chain.StatusCode, 200)
 }
 
+func TestRequestReplyFunc(t *testing.T) {
+	req := NewRequest()
+	res := NewResponse()
+	req.Response = res
+	chain := req.ReplyFunc(func(r *Response) {
+		r.Status(204)
+	})
+	st.Expect(t, chain, res)
+	st.Expect(t, chain.StatusCode, 204)
+}
+
 func TestRequestMethods(t *testing.T) {
 	req := NewRequest()
 	req.Get("/foo")

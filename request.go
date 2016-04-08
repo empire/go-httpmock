@@ -255,3 +255,9 @@ func (r *Request) EnableNetworking() *Request {
 func (r *Request) Reply(status int) *Response {
 	return r.Response.Status(status)
 }
+
+// ReplyFunc allows the developer to define the mock response via a custom function.
+func (r *Request) ReplyFunc(replier func(*Response)) *Response {
+	replier(r.Response)
+	return r.Response
+}
