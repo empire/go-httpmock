@@ -60,6 +60,13 @@ race conditions while configuring `gock` or intercepting custom HTTP clients.
 
 `gock` is not fully thread-safe, but sensible parts are. Any help making `gock` more reliable in this sense is highly appreciated.
 
+#### Define complex mocks first
+
+If you're mocking a bunch of mocks in the same test suite, it's recommended to define the more 
+concrete mocks first, and then the generic ones.
+
+This approach usually avoids matching unexpected generic mocks (e.g: specific header, body payload...) instead of the generic ones that performs less complex matches.
+
 ## Examples
 
 See [examples](https://github.com/h2non/gock/tree/master/_examples) directory for more featured use cases.
