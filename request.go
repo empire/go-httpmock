@@ -256,6 +256,11 @@ func (r *Request) Reply(status int) *Response {
 	return r.Response.Status(status)
 }
 
+// ReplyError defines the Response simulated error.
+func (r *Request) ReplyError(err error) *Response {
+	return r.Response.SetError(err)
+}
+
 // ReplyFunc allows the developer to define the mock response via a custom function.
 func (r *Request) ReplyFunc(replier func(*Response)) *Response {
 	replier(r.Response)

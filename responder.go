@@ -10,6 +10,12 @@ import (
 
 // Responder builds a mock http.Response based on the given Response mock.
 func Responder(req *http.Request, mock *Response, res *http.Response) (*http.Response, error) {
+	// If error present, reply it
+	err := mock.Error
+	if err != nil {
+		return nil, err
+	}
+
 	if res == nil {
 		res = createResponse(req)
 	}
@@ -43,12 +49,12 @@ func Responder(req *http.Request, mock *Response, res *http.Response) (*http.Res
 		}
 	}
 
-	// Sleep request if necessary
+	// Sleep to simulate delay, if necessary
 	if mock.ResponseDelay > 0 {
 		time.Sleep(mock.ResponseDelay)
 	}
 
-	return res, mock.Error
+	return res, err
 }
 
 // createResponse creates a new http.Response with default fields.

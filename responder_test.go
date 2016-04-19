@@ -1,13 +1,15 @@
 package gock
 
 import (
-	"github.com/nbio/st"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"testing"
+
+	"github.com/nbio/st"
 )
 
-func TestResponser(t *testing.T) {
+func TestResponder(t *testing.T) {
 	defer after()
 	mres := New("http://foo.com").Reply(200).BodyString("foo")
 	req := &http.Request{}
@@ -19,4 +21,14 @@ func TestResponser(t *testing.T) {
 
 	body, _ := ioutil.ReadAll(res.Body)
 	st.Expect(t, string(body), "foo")
+}
+
+func TestResponderError(t *testing.T) {
+	defer after()
+	mres := New("http://foo.com").ReplyError(errors.New("error"))
+	req := &http.Request{}
+
+	res, err := Responder(req, mres, nil)
+	st.Expect(t, err.Error(), "error")
+	st.Expect(t, res == nil, true)
 }
