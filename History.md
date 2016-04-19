@@ -1,3 +1,11 @@
+## 0.1.6 / 19-04-2016
+
+- fix(#7): if error configured, RoundTripper should reply with `nil` response.
+
+## 0.1.5 / 19-04-2016
+
+- fix(#7): if error configured, RoundTripper should reply with `nil` response.
+
 ## 0.1.4 / 16-03-2016
 
 - feat(api): add `IsDone()` method.
