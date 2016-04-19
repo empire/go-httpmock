@@ -2,9 +2,9 @@
 
 - fix(#7): if error configured, RoundTripper should reply with `nil` response.
 
-## 0.1.5 / 19-04-2016
+## 0.1.5 / 09-04-2016
 
-- fix(#7): if error configured, RoundTripper should reply with `nil` response.
+- feat(#5): support `ReplyFunc` for convenience.
 
 ## 0.1.4 / 16-03-2016
 
