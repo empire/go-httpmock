@@ -1,9 +1,10 @@
 package gock
 
 import (
-	"github.com/nbio/st"
 	"net/http"
 	"testing"
+
+	"github.com/nbio/st"
 )
 
 func TestNewMock(t *testing.T) {

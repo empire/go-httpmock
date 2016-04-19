@@ -3,10 +3,11 @@ package gock
 import (
 	"bytes"
 	"errors"
-	"github.com/nbio/st"
 	"net/http"
 	"testing"
 	"time"
+
+	"github.com/nbio/st"
 )
 
 func TestNewResponse(t *testing.T) {

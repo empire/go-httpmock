@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"gopkg.in/h2non/gentleman.v0"
 	"gopkg.in/h2non/gentleman.v0/context"
-	"gopkg.in/h2non/gock.v0"
+	"gopkg.in/h2non/gock.v1"
 )
 
 // Usege example with gentleman HTTP client toolkit.

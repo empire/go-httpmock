@@ -1,3 +1,7 @@
+## 1.0.0 / 19-04-2016
+
+- feat(version): first major version release.
+
 ## 0.1.6 / 19-04-2016
 
 - fix(#7): if error configured, RoundTripper should reply with `nil` response.

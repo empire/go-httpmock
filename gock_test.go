@@ -3,12 +3,13 @@ package gock
 import (
 	"bytes"
 	"fmt"
-	"github.com/nbio/st"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
+
+	"github.com/nbio/st"
 )
 
 func TestMockSimple(t *testing.T) {

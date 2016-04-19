@@ -2,10 +2,11 @@ package gock
 
 import (
 	"bytes"
-	"github.com/nbio/st"
 	"net/http"
 	"net/url"
 	"testing"
+
+	"github.com/nbio/st"
 )
 
 func TestNewRequest(t *testing.T) {

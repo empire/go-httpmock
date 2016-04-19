@@ -2,7 +2,7 @@ package test
 
 import (
 	"github.com/nbio/st"
-	"gopkg.in/h2non/gock.v0"
+	"gopkg.in/h2non/gock.v1"
 	"io/ioutil"
 	"net/http"
 	"testing"

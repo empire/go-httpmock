@@ -9,7 +9,7 @@ go get -u github.com/nbio/st
 ```
 
 ```bash
-go get -u gopkg.in/h2non/gock.v0
+go get -u gopkg.in/h2non/gock.v1
 ```
 
 ### Usage

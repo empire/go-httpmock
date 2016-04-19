@@ -27,7 +27,7 @@ Take a look to the [examples](#examples) to get started.
 ## Installation
 
 ```bash
-go get -u gopkg.in/h2non/gock.v0
+go get -u gopkg.in/h2non/gock.v1
 ```
 
 ## API

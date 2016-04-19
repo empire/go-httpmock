@@ -1,10 +1,11 @@
 package gock
 
 import (
-	"github.com/nbio/st"
 	"net/http"
 	"net/url"
 	"testing"
+
+	"github.com/nbio/st"
 )
 
 func TestMatchMethod(t *testing.T) {

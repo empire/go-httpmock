@@ -1,8 +1,9 @@
 package gock
 
 import (
-	"github.com/nbio/st"
 	"testing"
+
+	"github.com/nbio/st"
 )
 
 func TestStoreRegister(t *testing.T) {

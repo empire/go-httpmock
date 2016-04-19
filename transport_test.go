@@ -2,11 +2,12 @@ package gock
 
 import (
 	"fmt"
-	"github.com/nbio/st"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"testing"
+
+	"github.com/nbio/st"
 )
 
 func TestTransportMatch(t *testing.T) {

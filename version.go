@@ -1,4 +1,4 @@
 package gock
 
 // Version defines the current package semantic version.
-const Version = "0.1.6"
+const Version = "1.0.0"
