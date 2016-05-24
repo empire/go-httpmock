@@ -84,7 +84,7 @@ func EnableNetworking() {
 	config.Networking = true
 }
 
-// DisableNetworking enables real HTTP networking
+// DisableNetworking disables real HTTP networking
 func DisableNetworking() {
 	mutex.Lock()
 	defer mutex.Unlock()
