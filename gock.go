@@ -10,6 +10,7 @@ import (
 // mutex is used interally for locking thread-sensitive functions.
 var mutex = &sync.Mutex{}
 
+// config global singleton store.
 var config = struct {
 	Networking        bool
 	NetworkingFilters []FilterRequestFunc

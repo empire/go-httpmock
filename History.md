@@ -1,3 +1,7 @@
+## 1.0.1 / 19-04-2016
+
+- fix(#9): missing URL query param matcher.
+
 ## 1.0.0 / 19-04-2016
 
 - feat(version): first major version release.
