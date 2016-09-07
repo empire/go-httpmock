@@ -9,6 +9,7 @@ var MatchersHeader = []MatchFunc{
 	MatchHost,
 	MatchPath,
 	MatchHeaders,
+	MatchQueryParams,
 }
 
 // MatchersBody exposes an slice of HTTP body specific built-in mock matchers.
