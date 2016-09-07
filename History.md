@@ -1,4 +1,4 @@
-## 1.0.1 / 19-04-2016
+## 1.0.1 / 07-09-2016
 
 - fix(#9): missing URL query param matcher.
 
