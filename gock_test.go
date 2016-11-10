@@ -2,6 +2,7 @@ package gock
 
 import (
 	"bytes"
+	"compress/gzip"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -56,6 +57,32 @@ func TestMockBodyCannotMatch(t *testing.T) {
 	st.Reject(t, err, nil)
 }
 
+func TestMockBodyMatchCompressed(t *testing.T) {
+	defer after()
+	New("http://foo.com").Compression("gzip").BodyString("foo bar").Reply(201).BodyString("foo foo")
+
+	var compressed bytes.Buffer
+	w := gzip.NewWriter(&compressed)
+	w.Write([]byte("foo bar"))
+	w.Close()
+	req, err := http.NewRequest("POST", "http://foo.com", &compressed)
+	st.Expect(t, err, nil)
+	req.Header.Set("Content-Encoding", "gzip")
+	req.Header.Set("Content-Type", "text/plain")
+	res, err := http.DefaultClient.Do(req)
+	st.Expect(t, err, nil)
+	st.Expect(t, res.StatusCode, 201)
+	body, _ := ioutil.ReadAll(res.Body)
+	st.Expect(t, string(body), "foo foo")
+}
+
+func TestMockBodyCannotMatchCompressed(t *testing.T) {
+	defer after()
+	New("http://foo.com").Compression("gzip").BodyString("foo bar").Reply(201).BodyString("foo foo")
+	_, err := http.Post("http://foo.com", "text/plain", bytes.NewBuffer([]byte("foo bar")))
+	st.Reject(t, err, nil)
+}
+
 func TestMockBodyMatchJSON(t *testing.T) {
 	defer after()
 	New("http://foo.com").
@@ -80,6 +107,50 @@ func TestMockBodyCannotMatchJSON(t *testing.T) {
 		JSON(map[string]string{"bar": "foo"})
 
 	_, err := http.Post("http://foo.com/bar", "application/json", bytes.NewBuffer([]byte(`{"foo":"bar"}`)))
+	st.Reject(t, err, nil)
+}
+
+func TestMockBodyMatchCompressedJSON(t *testing.T) {
+	defer after()
+	New("http://foo.com").
+		Post("/bar").
+		Compression("gzip").
+		JSON(map[string]string{"foo": "bar"}).
+		Reply(201).
+		JSON(map[string]string{"bar": "foo"})
+
+	var compressed bytes.Buffer
+	w := gzip.NewWriter(&compressed)
+	w.Write([]byte(`{"foo":"bar"}`))
+	w.Close()
+	req, err := http.NewRequest("POST", "http://foo.com/bar", &compressed)
+	st.Expect(t, err, nil)
+	req.Header.Set("Content-Encoding", "gzip")
+	req.Header.Set("Content-Type", "application/json")
+	res, err := http.DefaultClient.Do(req)
+	st.Expect(t, err, nil)
+	st.Expect(t, res.StatusCode, 201)
+	body, _ := ioutil.ReadAll(res.Body)
+	st.Expect(t, string(body)[:13], `{"bar":"foo"}`)
+}
+
+func TestMockBodyCannotMatchCompressedJSON(t *testing.T) {
+	defer after()
+	New("http://foo.com").
+		Post("/bar").
+		JSON(map[string]string{"bar": "bar"}).
+		Reply(201).
+		JSON(map[string]string{"bar": "foo"})
+
+	var compressed bytes.Buffer
+	w := gzip.NewWriter(&compressed)
+	w.Write([]byte(`{"foo":"bar"}`))
+	w.Close()
+	req, err := http.NewRequest("POST", "http://foo.com/bar", &compressed)
+	st.Expect(t, err, nil)
+	req.Header.Set("Content-Encoding", "gzip")
+	req.Header.Set("Content-Type", "application/json")
+	_, err = http.DefaultClient.Do(req)
 	st.Reject(t, err, nil)
 }
 
