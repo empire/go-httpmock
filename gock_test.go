@@ -315,6 +315,7 @@ func TestUnmatched(t *testing.T) {
 	st.Expect(t, len(unmatched), 1)
 	st.Expect(t, unmatched[0].URL.Host, "server.com")
 	st.Expect(t, unmatched[0].URL.Path, "/unmatched")
+	st.Expect(t, HasUnmatchedRequest(), true)
 }
 
 func TestMultipleMocks(t *testing.T) {
