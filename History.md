@@ -1,3 +1,7 @@
+## 1.0.3 / 14-11-2016
+
+- feat(#13): adds `GetUnmatchedRequests()` and `HasUnmatchedRequests()` API functions.
+
 ## 1.0.2 / 10-11-2016
 
 - fix(#11): adds `Compression()` method for output HTTP traffic body compression processing and matching.
