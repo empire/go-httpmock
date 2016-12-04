@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"gopkg.in/h2non/gock.v1"
 	"io/ioutil"
 	"net/http"
+
+	"gopkg.in/h2non/gock.v1"
 )
 
 func main() {
@@ -26,7 +27,7 @@ func main() {
 
 	res, err := http.Get("http://httpbin.org/get")
 	if err != nil {
-		fmt.Errorf("Error: %s", err)
+		fmt.Printf("Error: %s", err)
 	}
 
 	// The response status comes from the mock
