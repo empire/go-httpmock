@@ -8,8 +8,6 @@ import (
 )
 
 func main() {
-	defer gock.Disable()
-	
 	// gock enabled but cannot match any mock
 	gock.New("http://httpbin.org").
 		Get("/foo").
