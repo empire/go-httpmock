@@ -1,3 +1,11 @@
+
+## v1.0.4 / 2017-02-14
+
+  * Update README to include most up to date version (#17)
+  * Update MatchBody() to compare if key + value pairs of JSON match regardless of order they are in. (#16)
+  * feat(examples): add new example for unmatch case
+  * refactor(docs): add pook reference
+
 ## 1.0.3 / 14-11-2016
 
 - feat(#13): adds `GetUnmatchedRequests()` and `HasUnmatchedRequests()` API functions.
