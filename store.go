@@ -1,7 +1,7 @@
 package gock
 
 import (
-  "sync"
+	"sync"
 )
 
 // storeMutex is used interally for store synchronization.
@@ -30,15 +30,15 @@ func Register(mock Mock) {
 
 // GetAll returns the current stack of registed mocks.
 func GetAll() []Mock {
-  storeMutex.RLock()
-  defer storeMutex.RUnlock()
+	storeMutex.RLock()
+	defer storeMutex.RUnlock()
 	return mocks
 }
 
 // Exists checks if the given Mock is already registered.
 func Exists(m Mock) bool {
-  storeMutex.RLock()
-  defer storeMutex.RUnlock()
+	storeMutex.RLock()
+	defer storeMutex.RUnlock()
 	for _, mock := range mocks {
 		if mock == m {
 			return true
@@ -51,7 +51,7 @@ func Exists(m Mock) bool {
 func Remove(m Mock) {
 	for i, mock := range mocks {
 		if mock == m {
-      storeMutex.Lock()
+			storeMutex.Lock()
 			mocks = append(mocks[:i], mocks[i+1:]...)
 			storeMutex.Unlock()
 		}
@@ -68,8 +68,8 @@ func Flush() {
 // Pending returns an slice of pending mocks.
 func Pending() []Mock {
 	Clean()
-  storeMutex.RLock()
-  defer storeMutex.RUnlock()
+	storeMutex.RLock()
+	defer storeMutex.RUnlock()
 	return mocks
 }
 
