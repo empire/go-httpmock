@@ -5,7 +5,7 @@ import (
 )
 
 // storeMutex is used interally for store synchronization.
-var storeMutex = &sync.RWMutex{}
+var storeMutex = sync.RWMutex{}
 
 // mocks is internally used to store registered mocks.
 var mocks = []Mock{}
