@@ -1,4 +1,8 @@
 
+## v1.0.6 / 2017-07-27
+
+  * fix(#23): mock transport deadlock
+
 ## v1.0.5 / 2017-07-26
 
   * feat(#25, #24): use content type only if missing while matching JSON/XML
