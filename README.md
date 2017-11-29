@@ -6,8 +6,6 @@ Heavily inspired by [nock](https://github.com/node-nock/nock). See also its Pyth
 
 Take a look to the [examples](#examples) to get started.
 
-<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/1MpD3pzt63uUeG43NP4tDHPY/h2non/gock'>  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/1MpD3pzt63uUeG43NP4tDHPY/h2non/gock.svg' /></a>
-
 ## Features
 
 - Simple, expressive, fluent API.
