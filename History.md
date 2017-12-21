@@ -1,4 +1,12 @@
 
+## v1.0.7 / 2017-12-21
+
+  * Make MatchHost case insensitive. (#31)
+  * refactor(docs): remove codesponsor :(
+  * add example when request reply with error (#28)
+  * feat(docs): add sponsor ad
+  * Add example networking partially enabled (#23)
+
 ## v1.0.6 / 2017-07-27
 
   * fix(#23): mock transport deadlock
