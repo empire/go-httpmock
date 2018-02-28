@@ -1,4 +1,10 @@
 
+## v1.0.8 / 2018-02-28
+
+  * chore(LICENSE): update year ;)
+  * feat(docs): add additional tips and examples
+  * feat(gock): ignore already intercepted http.Client
+
 ## v1.0.7 / 2017-12-21
 
   * Make MatchHost case insensitive. (#31)
