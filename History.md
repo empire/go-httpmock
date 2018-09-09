@@ -1,4 +1,8 @@
 
+## v1.0.10 / 2018-09-09
+
+  * Support multiple response headers with same name #35 (#36)
+
 ## v1.0.9 / 2018-06-14
 
   * fix(url-encoding) add exact match test in MatchPath (#34)
