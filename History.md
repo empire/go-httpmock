@@ -1,4 +1,10 @@
 
+## v1.0.11 / 2018-10-29
+
+  * Do not reset response body (#40)
+  * refactor(travis): remove unsupported versions for golint based on Go release policy support
+  * feat(gock): add gock.Observe to support inspection of the outgoing intercepted HTTP traffic (#38)
+
 ## v1.0.10 / 2018-09-09
 
   * Support multiple response headers with same name #35 (#36)
