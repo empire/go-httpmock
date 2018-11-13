@@ -1,4 +1,8 @@
 
+## v1.0.12 / 2018-11-13
+
+  * Fix possible data race. (#41)
+
 ## v1.0.11 / 2018-10-29
 
   * Do not reset response body (#40)
