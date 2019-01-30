@@ -1,4 +1,8 @@
 
+## v1.0.13 / 2019-01-30
+
+  * Add PathParam matcher (#42)
+
 ## v1.0.12 / 2018-11-13
 
   * Fix possible data race. (#41)
