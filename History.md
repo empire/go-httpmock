@@ -1,4 +1,9 @@
 
+## v1.0.14 / 2019-01-31
+
+  * feat(version): bump to v1.0.14
+  * feat: add go.mod
+
 ## v1.0.13 / 2019-01-30
 
   * Add PathParam matcher (#42)
