@@ -10,7 +10,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/codemodus/parth"
+	"github.com/codemodus/parth/v2"
 )
 
 // EOL represents the end of line character.
