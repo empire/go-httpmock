@@ -3,7 +3,7 @@
 Versatile HTTP mocking made easy in [Go](https://golang.org) for `net/http` stdlib package.
 
 Heavily inspired by [nock](https://github.com/node-nock/nock).
-See also its Python port, [pook](https://github.com/h2non/pook).
+There is also its Python port, [pook](https://github.com/h2non/pook).
 
 To get started, take a look to the [examples](#examples).
 
