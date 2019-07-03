@@ -15,14 +15,18 @@ func TestRegisteredMatchers(t *testing.T) {
 
 func TestNewMatcher(t *testing.T) {
 	matcher := NewMatcher()
-	st.Expect(t, matcher.Matchers, Matchers)
-	st.Expect(t, matcher.Get(), Matchers)
+	// Funcs are not comparable, checking slice length as it's better than nothing
+	// See https://golang.org/pkg/reflect/#DeepEqual
+	st.Expect(t, len(matcher.Matchers), len(Matchers))
+	st.Expect(t, len(matcher.Get()), len(Matchers))
 }
 
 func TestNewBasicMatcher(t *testing.T) {
 	matcher := NewBasicMatcher()
-	st.Expect(t, matcher.Matchers, MatchersHeader)
-	st.Expect(t, matcher.Get(), MatchersHeader)
+	// Funcs are not comparable, checking slice length as it's better than nothing
+	// See https://golang.org/pkg/reflect/#DeepEqual
+	st.Expect(t, len(matcher.Matchers), len(MatchersHeader))
+	st.Expect(t, len(matcher.Get()), len(MatchersHeader))
 }
 
 func TestNewEmptyMatcher(t *testing.T) {
@@ -65,6 +69,11 @@ func TestMatcherFlush(t *testing.T) {
 	st.Expect(t, len(matcher.Get()), len(Matchers)+1)
 	matcher.Flush()
 	st.Expect(t, len(matcher.Get()), 0)
+}
+
+func TestMatcherClone(t *testing.T) {
+	matcher := DefaultMatcher.Clone()
+	st.Expect(t, len(matcher.Get()), len(DefaultMatcher.Get()))
 }
 
 func TestMatcher(t *testing.T) {
