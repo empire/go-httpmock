@@ -1,4 +1,14 @@
 
+## v1.0.15 / 2019-07-03
+  
+  * NewMatcher() will now return objects that completely separate one another. (#55)
+  * add request Options (#49)
+  * fix typo: function -> func (#52)
+  * feat(docs): change note
+  * feat(docs): add net/http support
+  * Add Basic Auth (#47)
+  * Update LICENSE (#46)
+
 ## v1.0.14 / 2019-01-31
 
   * feat(version): bump to v1.0.14
