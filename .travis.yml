@@ -6,7 +6,7 @@ go:
   # - "1.12"
   - "1.11"
   - "1.10"
-  - "stable"
+  # - "stable"
 
 before_install:
   - go get -u github.com/nbio/st
