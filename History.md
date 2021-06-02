@@ -1,5 +1,5 @@
 
-## v1.1.0 / 2020-06-02
+## v1.1.0 / 2021-06-02
   
   * Add context expiration cancellation support (#86)
 
