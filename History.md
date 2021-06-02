@@ -1,4 +1,8 @@
 
+## v1.1.0 / 2020-06-02
+  
+  * Add context expiration cancellation support (#86)
+
 ## v1.0.16 / 2020-11-23
   
   * Fix regexp matching issues in headers (#59)
