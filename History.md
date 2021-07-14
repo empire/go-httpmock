@@ -1,3 +1,6 @@
+## v1.1.1 / 2021-07-14
+
+  * feat(matchers): Support custom MIME types (#88)
 
 ## v1.1.0 / 2021-06-02
   
