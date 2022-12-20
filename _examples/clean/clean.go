@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"gopkg.in/h2non/gock.v1"
+	"github.com/empire/go-httpmock"
 	"net/http"
 )
 

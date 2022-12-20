@@ -29,7 +29,7 @@ To get started, take a look to the [examples](#examples).
 ## Installation
 
 ```bash
-go get -u gopkg.in/h2non/gock.v1
+go get -u github.com/empire/go-httpmock
 ```
 
 ## API
@@ -126,7 +126,7 @@ package test
 
 import (
   "github.com/nbio/st"
-  "gopkg.in/h2non/gock.v1"
+  "github.com/empire/go-httpmock"
   "io/ioutil"
   "net/http"
   "testing"
@@ -159,7 +159,7 @@ package test
 
 import (
   "github.com/nbio/st"
-  "gopkg.in/h2non/gock.v1"
+  "github.com/empire/go-httpmock"
   "io/ioutil"
   "net/http"
   "testing"
@@ -198,7 +198,7 @@ package test
 
 import (
   "github.com/nbio/st"
-  "gopkg.in/h2non/gock.v1"
+  "github.com/empire/go-httpmock"
   "io/ioutil"
   "net/http"
   "testing"
@@ -234,7 +234,7 @@ package test
 import (
   "bytes"
   "github.com/nbio/st"
-  "gopkg.in/h2non/gock.v1"
+  "github.com/empire/go-httpmock"
   "io/ioutil"
   "net/http"
   "testing"
@@ -270,7 +270,7 @@ package test
 
 import (
   "github.com/nbio/st"
-  "gopkg.in/h2non/gock.v1"
+  "github.com/empire/go-httpmock"
   "io/ioutil"
   "net/http"
   "testing"
@@ -305,7 +305,7 @@ package main
 
 import (
   "fmt"
-  "gopkg.in/h2non/gock.v1"
+  "github.com/empire/go-httpmock"
   "io/ioutil"
   "net/http"
 )
@@ -342,7 +342,7 @@ package main
 
 import (
 	"bytes"
-	"gopkg.in/h2non/gock.v1"
+	"github.com/empire/go-httpmock"
 	"net/http"
 )
 

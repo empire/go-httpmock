@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/nbio/st"
-	"gopkg.in/h2non/gock.v1"
+	"github.com/empire/go-httpmock"
 )
 
 func TestMatchHeaders(t *testing.T) {

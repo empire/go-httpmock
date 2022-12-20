@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 
-	"gopkg.in/h2non/gock.v1"
+	"github.com/empire/go-httpmock"
 )
 
 // Starts a local HTTP server in background
