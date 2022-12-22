@@ -9,11 +9,15 @@ import (
 )
 
 func TestRegisteredMatchers(t *testing.T) {
+	t.Parallel()
+
 	require.Equal(t, len(MatchersHeader), 7)
 	require.Equal(t, len(MatchersBody), 1)
 }
 
 func TestNewMatcher(t *testing.T) {
+	t.Parallel()
+
 	matcher := NewMatcher()
 	// Funcs are not comparable, checking slice length as it's better than nothing
 	// See https://golang.org/pkg/reflect/#DeepEqual
@@ -22,6 +26,8 @@ func TestNewMatcher(t *testing.T) {
 }
 
 func TestNewBasicMatcher(t *testing.T) {
+	t.Parallel()
+
 	matcher := NewBasicMatcher()
 	// Funcs are not comparable, checking slice length as it's better than nothing
 	// See https://golang.org/pkg/reflect/#DeepEqual
@@ -30,12 +36,16 @@ func TestNewBasicMatcher(t *testing.T) {
 }
 
 func TestNewEmptyMatcher(t *testing.T) {
+	t.Parallel()
+
 	matcher := NewEmptyMatcher()
 	require.Equal(t, len(matcher.Matchers), 0)
 	require.Equal(t, len(matcher.Get()), 0)
 }
 
 func TestMatcherAdd(t *testing.T) {
+	t.Parallel()
+
 	matcher := NewMatcher()
 	require.Equal(t, len(matcher.Matchers), len(Matchers))
 	matcher.Add(func(req *http.Request, ereq *Request) (bool, error) {
@@ -45,6 +55,8 @@ func TestMatcherAdd(t *testing.T) {
 }
 
 func TestMatcherSet(t *testing.T) {
+	t.Parallel()
+
 	matcher := NewMatcher()
 	matchers := []MatchFunc{}
 	require.Equal(t, len(matcher.Matchers), len(Matchers))
@@ -54,6 +66,8 @@ func TestMatcherSet(t *testing.T) {
 }
 
 func TestMatcherGet(t *testing.T) {
+	t.Parallel()
+
 	matcher := NewMatcher()
 	matchers := []MatchFunc{}
 	matcher.Set(matchers)
@@ -61,6 +75,8 @@ func TestMatcherGet(t *testing.T) {
 }
 
 func TestMatcherFlush(t *testing.T) {
+	t.Parallel()
+
 	matcher := NewMatcher()
 	require.Equal(t, len(matcher.Matchers), len(Matchers))
 	matcher.Add(func(req *http.Request, ereq *Request) (bool, error) {
@@ -72,11 +88,15 @@ func TestMatcherFlush(t *testing.T) {
 }
 
 func TestMatcherClone(t *testing.T) {
+	t.Parallel()
+
 	matcher := DefaultMatcher.Clone()
 	require.Equal(t, len(matcher.Get()), len(DefaultMatcher.Get()))
 }
 
 func TestMatcher(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		method  string
 		url     string

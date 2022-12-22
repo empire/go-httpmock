@@ -11,6 +11,8 @@ import (
 )
 
 func Test_Server(t *testing.T) {
+	t.Parallel()
+
 	require := require.New(t)
 	s := Server(t)
 

@@ -9,6 +9,8 @@ import (
 )
 
 func TestTransportMatch(t *testing.T) {
+	t.Parallel()
+
 	defer after()
 	const uri = "http://foo.com"
 	mocks := register(t, uri)
@@ -22,6 +24,8 @@ func TestTransportMatch(t *testing.T) {
 }
 
 func TestTransportCannotMatch(t *testing.T) {
+	t.Parallel()
+
 	defer after()
 	mocks := register(t, "http://foo.com")
 	New("http://foo.com").Reply(204)

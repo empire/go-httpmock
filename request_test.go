@@ -10,6 +10,8 @@ import (
 )
 
 func TestNewRequest(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	req.URL("http://foo.com")
 	require.Equal(t, req.URLStruct.Host, "foo.com")
@@ -19,6 +21,8 @@ func TestNewRequest(t *testing.T) {
 }
 
 func TestRequestSetURL(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	req.URL("http://foo.com")
 	req.SetURL(&url.URL{Host: "bar.com", Path: "/foo"})
@@ -27,6 +31,8 @@ func TestRequestSetURL(t *testing.T) {
 }
 
 func TestRequestPath(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	req.URL("http://foo.com")
 	req.Path("/foo")
@@ -36,24 +42,32 @@ func TestRequestPath(t *testing.T) {
 }
 
 func TestRequestBody(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	req.Body(bytes.NewBuffer([]byte("foo bar")))
 	require.Equal(t, string(req.BodyBuffer), "foo bar")
 }
 
 func TestRequestBodyString(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	req.BodyString("foo bar")
 	require.Equal(t, string(req.BodyBuffer), "foo bar")
 }
 
 func TestRequestFile(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	req.File("version.go")
 	require.Equal(t, "package httpmock", string(req.BodyBuffer)[:16])
 }
 
 func TestRequestJSON(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	req.JSON(map[string]string{"foo": "bar"})
 	require.Equal(t, string(req.BodyBuffer)[:13], `{"foo":"bar"}`)
@@ -61,6 +75,8 @@ func TestRequestJSON(t *testing.T) {
 }
 
 func TestRequestXML(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	type xml struct {
 		Data string `xml:"data"`
@@ -71,6 +87,8 @@ func TestRequestXML(t *testing.T) {
 }
 
 func TestRequestMatchType(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	req.MatchType("json")
 	require.Equal(t, req.Header.Get("Content-Type"), "application/json")
@@ -85,12 +103,16 @@ func TestRequestMatchType(t *testing.T) {
 }
 
 func TestRequestBasicAuth(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	req.BasicAuth("bob", "qwerty")
 	require.Equal(t, req.Header.Get("Authorization"), "Basic Ym9iOnF3ZXJ0eQ==")
 }
 
 func TestRequestMatchHeader(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	req.MatchHeader("foo", "bar")
 	req.MatchHeader("bar", "baz")
@@ -104,6 +126,8 @@ func TestRequestMatchHeader(t *testing.T) {
 }
 
 func TestRequestHeaderPresent(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	req.HeaderPresent("foo")
 	req.HeaderPresent("bar")
@@ -116,6 +140,8 @@ func TestRequestHeaderPresent(t *testing.T) {
 }
 
 func TestRequestMatchParam(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	req.MatchParam("foo", "bar")
 	req.MatchParam("bar", "baz")
@@ -124,6 +150,8 @@ func TestRequestMatchParam(t *testing.T) {
 }
 
 func TestRequestMatchParams(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	req.MatchParams(map[string]string{"foo": "bar", "bar": "baz"})
 	require.Equal(t, req.URLStruct.Query().Get("foo"), "bar")
@@ -131,18 +159,24 @@ func TestRequestMatchParams(t *testing.T) {
 }
 
 func TestRequestPresentParam(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	req.ParamPresent("key")
 	require.Equal(t, req.URLStruct.Query().Get("key"), ".*")
 }
 
 func TestRequestPathParam(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	req.PathParam("key", "value")
 	require.Equal(t, req.PathParams["key"], "value")
 }
 
 func TestRequestPersist(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	require.Equal(t, req.Persisted, false)
 	req.Persist()
@@ -150,6 +184,8 @@ func TestRequestPersist(t *testing.T) {
 }
 
 func TestRequestTimes(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	require.Equal(t, req.Counter, 1)
 	req.Times(3)
@@ -157,6 +193,8 @@ func TestRequestTimes(t *testing.T) {
 }
 
 func TestRequestMap(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	require.Equal(t, len(req.Mappers), 0)
 	req.Map(func(req *http.Request) *http.Request {
@@ -166,6 +204,8 @@ func TestRequestMap(t *testing.T) {
 }
 
 func TestRequestFilter(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	require.Equal(t, len(req.Filters), 0)
 	req.Filter(func(req *http.Request) bool {
@@ -183,6 +223,8 @@ func TestRequestFilter(t *testing.T) {
 // }
 
 func TestRequestResponse(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	res := NewResponse()
 	req.Response = res
@@ -192,6 +234,8 @@ func TestRequestResponse(t *testing.T) {
 }
 
 func TestRequestReplyFunc(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	res := NewResponse()
 	req.Response = res
@@ -203,6 +247,8 @@ func TestRequestReplyFunc(t *testing.T) {
 }
 
 func TestRequestMethods(t *testing.T) {
+	t.Parallel()
+
 	req := NewRequest()
 	req.Get("/foo")
 	require.Equal(t, req.Method, "GET")
@@ -235,6 +281,8 @@ func TestRequestMethods(t *testing.T) {
 }
 
 func TestRequestSetMatcher(t *testing.T) {
+	t.Parallel()
+
 	defer after()
 
 	matcher := NewEmptyMatcher()
@@ -262,6 +310,7 @@ func TestRequestSetMatcher(t *testing.T) {
 }
 
 func TestRequestAddMatcher(t *testing.T) {
+	t.Parallel()
 	defer after()
 
 	ereq := NewRequest()

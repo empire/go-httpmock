@@ -9,6 +9,8 @@ import (
 )
 
 func TestMatchMethod(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		value   string
 		method  string
@@ -31,6 +33,8 @@ func TestMatchMethod(t *testing.T) {
 }
 
 func TestMatchScheme(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		value   string
 		scheme  string
@@ -53,6 +57,8 @@ func TestMatchScheme(t *testing.T) {
 }
 
 func TestMatchHost(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		value            string
 		url              string
@@ -85,6 +91,8 @@ func TestMatchHost(t *testing.T) {
 }
 
 func TestMatchPath(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		value   string
 		path    string
@@ -114,6 +122,8 @@ func TestMatchPath(t *testing.T) {
 }
 
 func TestMatchHeaders(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		values  http.Header
 		headers http.Header
@@ -143,6 +153,8 @@ func TestMatchHeaders(t *testing.T) {
 }
 
 func TestMatchQueryParams(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		value   string
 		path    string
@@ -171,6 +183,8 @@ func TestMatchQueryParams(t *testing.T) {
 }
 
 func TestMatchPathParams(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		key     string
 		value   string
@@ -198,6 +212,8 @@ func TestMatchPathParams(t *testing.T) {
 }
 
 func TestMatchBody(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		value   string
 		body    string
@@ -224,6 +240,8 @@ func TestMatchBody(t *testing.T) {
 }
 
 func TestMatchBody_MatchType(t *testing.T) {
+	t.Parallel()
+
 	body := `{"foo":"bar"}`
 	cases := []struct {
 		body               string
