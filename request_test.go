@@ -50,7 +50,7 @@ func TestRequestBodyString(t *testing.T) {
 func TestRequestFile(t *testing.T) {
 	req := NewRequest()
 	req.File("version.go")
-	require.Equal(t, string(req.BodyBuffer)[:12], "package httpmock")
+	require.Equal(t, "package httpmock", string(req.BodyBuffer)[:16])
 }
 
 func TestRequestJSON(t *testing.T) {

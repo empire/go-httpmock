@@ -85,7 +85,7 @@ func TestResponseBodyString(t *testing.T) {
 func TestResponseFile(t *testing.T) {
 	res := NewResponse()
 	res.File("version.go")
-	require.Equal(t, string(res.BodyBuffer)[:12], "package httpmock")
+	require.Equal(t, "package httpmock", string(res.BodyBuffer)[:16])
 }
 
 func TestResponseJSON(t *testing.T) {
