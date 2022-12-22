@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/nbio/st"
 	"github.com/empire/go-httpmock"
+	"github.com/stretchr/testify/require"
 )
 
 func TestMatchHeaders(t *testing.T) {
@@ -25,8 +25,8 @@ func TestMatchHeaders(t *testing.T) {
 	req.Header.Set("Accept", "text/plain")
 
 	res, err := (&http.Client{}).Do(req)
-	st.Expect(t, err, nil)
-	st.Expect(t, res.StatusCode, 200)
+	require.Equal(t, err, nil)
+	require.Equal(t, res.StatusCode, 200)
 	body, _ := ioutil.ReadAll(res.Body)
-	st.Expect(t, string(body), "foo foo")
+	require.Equal(t, string(body), "foo foo")
 }

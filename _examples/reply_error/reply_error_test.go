@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nbio/st"
 	"github.com/empire/go-httpmock"
+	"github.com/stretchr/testify/require"
 )
 
 func TestReplyError(t *testing.T) {
@@ -18,8 +18,8 @@ func TestReplyError(t *testing.T) {
 		ReplyError(errors.New("Error dude!"))
 
 	_, err := http.Get("http://foo.com/bar")
-	st.Expect(t, strings.HasSuffix(err.Error(), ": Error dude!"), true)
+	require.Equal(t, strings.HasSuffix(err.Error(), ": Error dude!"), true)
 
 	// Verify that we don't have pending mocks
-	st.Expect(t, gock.IsDone(), true)
+	require.Equal(t, gock.IsDone(), true)
 }

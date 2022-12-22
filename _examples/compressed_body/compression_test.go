@@ -3,11 +3,12 @@ package test
 import (
 	"bytes"
 	"compress/gzip"
-	"github.com/nbio/st"
-	"github.com/empire/go-httpmock"
 	"io/ioutil"
 	"net/http"
 	"testing"
+
+	"github.com/empire/go-httpmock"
+	"github.com/stretchr/testify/require"
 )
 
 func TestMockSimple(t *testing.T) {
@@ -26,13 +27,13 @@ func TestMockSimple(t *testing.T) {
 	w.Write([]byte(`{"foo":"bar"}`))
 	w.Close()
 	req, err := http.NewRequest("POST", "http://foo.com/bar", &compressed)
-	st.Expect(t, err, nil)
+	require.Equal(t, err, nil)
 	req.Header.Set("Content-Encoding", "gzip")
 	req.Header.Set("Content-Type", "application/json")
 	res, err := http.DefaultClient.Do(req)
-	st.Expect(t, err, nil)
-	st.Expect(t, res.StatusCode, 201)
+	require.Equal(t, err, nil)
+	require.Equal(t, res.StatusCode, 201)
 
 	resBody, _ := ioutil.ReadAll(res.Body)
-	st.Expect(t, string(resBody)[:13], `{"bar":"foo"}`)
+	require.Equal(t, string(resBody)[:13], `{"bar":"foo"}`)
 }

@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nbio/st"
+	"github.com/stretchr/testify/require"
 )
 
 func TestResponder(t *testing.T) {
@@ -18,12 +18,12 @@ func TestResponder(t *testing.T) {
 	req := &http.Request{}
 
 	res, err := Responder(req, mres, nil)
-	st.Expect(t, err, nil)
-	st.Expect(t, res.Status, "200 OK")
-	st.Expect(t, res.StatusCode, 200)
+	require.Equal(t, err, nil)
+	require.Equal(t, res.Status, "200 OK")
+	require.Equal(t, res.StatusCode, 200)
 
 	body, _ := io.ReadAll(res.Body)
-	st.Expect(t, string(body), "foo")
+	require.Equal(t, string(body), "foo")
 }
 
 func TestResponder_ReadTwice(t *testing.T) {
@@ -33,16 +33,16 @@ func TestResponder_ReadTwice(t *testing.T) {
 	req := &http.Request{}
 
 	res, err := Responder(req, mres, nil)
-	st.Expect(t, err, nil)
-	st.Expect(t, res.Status, "200 OK")
-	st.Expect(t, res.StatusCode, 200)
+	require.Equal(t, err, nil)
+	require.Equal(t, res.Status, "200 OK")
+	require.Equal(t, res.StatusCode, 200)
 
 	body, _ := io.ReadAll(res.Body)
-	st.Expect(t, string(body), "foo")
+	require.Equal(t, string(body), "foo")
 
 	body, err = io.ReadAll(res.Body)
-	st.Expect(t, err, nil)
-	st.Expect(t, body, []byte{})
+	require.Equal(t, err, nil)
+	require.Equal(t, body, []byte{})
 }
 
 func TestResponderSupportsMultipleHeadersWithSameKey(t *testing.T) {
@@ -55,8 +55,8 @@ func TestResponderSupportsMultipleHeadersWithSameKey(t *testing.T) {
 	req := &http.Request{}
 
 	res, err := Responder(req, mres, nil)
-	st.Expect(t, err, nil)
-	st.Expect(t, res.Header, http.Header{"Set-Cookie": []string{"a=1", "b=2"}})
+	require.Equal(t, err, nil)
+	require.Equal(t, res.Header, http.Header{"Set-Cookie": []string{"a=1", "b=2"}})
 }
 
 func TestResponderError(t *testing.T) {
@@ -66,8 +66,8 @@ func TestResponderError(t *testing.T) {
 	req := &http.Request{}
 
 	res, err := Responder(req, mres, nil)
-	st.Expect(t, err.Error(), "error")
-	st.Expect(t, res == nil, true)
+	require.Equal(t, err.Error(), "error")
+	require.Equal(t, res == nil, true)
 }
 
 func TestResponderCancelledContext(t *testing.T) {
@@ -87,8 +87,8 @@ func TestResponderCancelledContext(t *testing.T) {
 	res, err := Responder(req, mres, nil)
 
 	// verify that we got a context cancellation error and nil response
-	st.Expect(t, err, context.Canceled)
-	st.Expect(t, res == nil, true)
+	require.Equal(t, err, context.Canceled)
+	require.Equal(t, res == nil, true)
 }
 
 func TestResponderExpiredContext(t *testing.T) {
@@ -104,8 +104,8 @@ func TestResponderExpiredContext(t *testing.T) {
 	res, err := Responder(req, mres, nil)
 
 	// verify that we got a context cancellation error and nil response
-	st.Expect(t, err, context.DeadlineExceeded)
-	st.Expect(t, res == nil, true)
+	require.Equal(t, err, context.DeadlineExceeded)
+	require.Equal(t, res == nil, true)
 }
 
 func TestResponderPreExpiredContext(t *testing.T) {
@@ -122,6 +122,6 @@ func TestResponderPreExpiredContext(t *testing.T) {
 	res, err := Responder(req, mres, nil)
 
 	// verify that we got a context cancellation error and nil response
-	st.Expect(t, err, context.DeadlineExceeded)
-	st.Expect(t, res == nil, true)
+	require.Equal(t, err, context.DeadlineExceeded)
+	require.Equal(t, res == nil, true)
 }

@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
+	"github.com/empire/go-httpmock"
 	"gopkg.in/h2non/gentleman.v1"
 	"gopkg.in/h2non/gentleman.v1/context"
-	"github.com/empire/go-httpmock"
 )
 
 // Usege example with gentleman HTTP client toolkit.

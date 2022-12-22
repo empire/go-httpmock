@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/empire/go-httpmock"
 	"net/http"
+
+	"github.com/empire/go-httpmock"
 )
 
 func main() {

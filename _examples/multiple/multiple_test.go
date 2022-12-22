@@ -1,11 +1,12 @@
 package test
 
 import (
-	"github.com/nbio/st"
-	"github.com/empire/go-httpmock"
 	"io/ioutil"
 	"net/http"
 	"testing"
+
+	"github.com/empire/go-httpmock"
+	"github.com/stretchr/testify/require"
 )
 
 func TestMultipleMocks(t *testing.T) {
@@ -36,10 +37,10 @@ func TestMultipleMocks(t *testing.T) {
 
 	for _, test := range tests {
 		res, err := http.Get("http://server.com" + test.path)
-		st.Expect(t, err, nil)
-		st.Expect(t, res.StatusCode, 200)
+		require.Equal(t, err, nil)
+		require.Equal(t, res.StatusCode, 200)
 		body, _ := ioutil.ReadAll(res.Body)
-		st.Expect(t, string(body)[:15], `{"value":"`+test.path[1:]+`"}`)
+		require.Equal(t, string(body)[:15], `{"value":"`+test.path[1:]+`"}`)
 	}
 
 	// Failed request after mocks expires

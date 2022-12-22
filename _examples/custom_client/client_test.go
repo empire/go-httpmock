@@ -1,11 +1,12 @@
 package test
 
 import (
-	"github.com/nbio/st"
-	"github.com/empire/go-httpmock"
 	"io/ioutil"
 	"net/http"
 	"testing"
+
+	"github.com/empire/go-httpmock"
+	"github.com/stretchr/testify/require"
 )
 
 func TestClient(t *testing.T) {
@@ -20,8 +21,8 @@ func TestClient(t *testing.T) {
 	gock.InterceptClient(client)
 
 	res, err := client.Do(req)
-	st.Expect(t, err, nil)
-	st.Expect(t, res.StatusCode, 200)
+	require.Equal(t, err, nil)
+	require.Equal(t, res.StatusCode, 200)
 	body, _ := ioutil.ReadAll(res.Body)
-	st.Expect(t, string(body), "foo foo")
+	require.Equal(t, string(body), "foo foo")
 }

@@ -5,7 +5,7 @@ gock's examples showing multiple built-in features and common practical use case
 ### Set up
 
 ```bash
-go get -u github.com/nbio/st
+go get -u github.com/stretchr/testify/require
 ```
 
 ```bash

@@ -125,7 +125,7 @@ See [examples](https://github.com/h2non/gock/tree/master/_examples) directory fo
 package test
 
 import (
-  "github.com/nbio/st"
+  "github.com/stretchr/testify/require"
   "github.com/empire/go-httpmock"
   "io/ioutil"
   "net/http"
@@ -141,14 +141,14 @@ func TestSimple(t *testing.T) {
     JSON(map[string]string{"foo": "bar"})
 
   res, err := http.Get("http://foo.com/bar")
-  st.Expect(t, err, nil)
-  st.Expect(t, res.StatusCode, 200)
+  require.Equal(t, err, nil)
+  require.Equal(t, res.StatusCode, 200)
 
   body, _ := ioutil.ReadAll(res.Body)
-  st.Expect(t, string(body)[:13], `{"foo":"bar"}`)
+  require.Equal(t, string(body)[:13], `{"foo":"bar"}`)
 
   // Verify that we don't have pending mocks
-  st.Expect(t, gock.IsDone(), true)
+  require.Equal(t, gock.IsDone(), true)
 }
 ```
 
@@ -158,7 +158,7 @@ func TestSimple(t *testing.T) {
 package test
 
 import (
-  "github.com/nbio/st"
+  "github.com/stretchr/testify/require"
   "github.com/empire/go-httpmock"
   "io/ioutil"
   "net/http"
@@ -181,13 +181,13 @@ func TestMatchHeaders(t *testing.T) {
   req.Header.Set("Accept", "text/plain")
 
   res, err := (&http.Client{}).Do(req)
-  st.Expect(t, err, nil)
-  st.Expect(t, res.StatusCode, 200)
+  require.Equal(t, err, nil)
+  require.Equal(t, res.StatusCode, 200)
   body, _ := ioutil.ReadAll(res.Body)
-  st.Expect(t, string(body), "foo foo")
+  require.Equal(t, string(body), "foo foo")
 
   // Verify that we don't have pending mocks
-  st.Expect(t, gock.IsDone(), true)
+  require.Equal(t, gock.IsDone(), true)
 }
 ```
 
@@ -197,7 +197,7 @@ func TestMatchHeaders(t *testing.T) {
 package test
 
 import (
-  "github.com/nbio/st"
+  "github.com/stretchr/testify/require"
   "github.com/empire/go-httpmock"
   "io/ioutil"
   "net/http"
@@ -216,13 +216,13 @@ func TestMatchParams(t *testing.T) {
   req, err := http.NewRequest("GET", "http://foo.com?page=1&per_page=10", nil)
 
   res, err := (&http.Client{}).Do(req)
-  st.Expect(t, err, nil)
-  st.Expect(t, res.StatusCode, 200)
+  require.Equal(t, err, nil)
+  require.Equal(t, res.StatusCode, 200)
   body, _ := ioutil.ReadAll(res.Body)
-  st.Expect(t, string(body), "foo foo")
+  require.Equal(t, string(body), "foo foo")
 
   // Verify that we don't have pending mocks
-  st.Expect(t, gock.IsDone(), true)
+  require.Equal(t, gock.IsDone(), true)
 }
 ```
 
@@ -233,7 +233,7 @@ package test
 
 import (
   "bytes"
-  "github.com/nbio/st"
+  "github.com/stretchr/testify/require"
   "github.com/empire/go-httpmock"
   "io/ioutil"
   "net/http"
@@ -252,14 +252,14 @@ func TestMockSimple(t *testing.T) {
 
   body := bytes.NewBuffer([]byte(`{"foo":"bar"}`))
   res, err := http.Post("http://foo.com/bar", "application/json", body)
-  st.Expect(t, err, nil)
-  st.Expect(t, res.StatusCode, 201)
+  require.Equal(t, err, nil)
+  require.Equal(t, res.StatusCode, 201)
 
   resBody, _ := ioutil.ReadAll(res.Body)
-  st.Expect(t, string(resBody)[:13], `{"bar":"foo"}`)
+  require.Equal(t, string(resBody)[:13], `{"bar":"foo"}`)
 
   // Verify that we don't have pending mocks
-  st.Expect(t, gock.IsDone(), true)
+  require.Equal(t, gock.IsDone(), true)
 }
 ```
 
@@ -269,7 +269,7 @@ func TestMockSimple(t *testing.T) {
 package test
 
 import (
-  "github.com/nbio/st"
+  "github.com/stretchr/testify/require"
   "github.com/empire/go-httpmock"
   "io/ioutil"
   "net/http"
@@ -288,13 +288,13 @@ func TestClient(t *testing.T) {
   gock.InterceptClient(client)
 
   res, err := client.Do(req)
-  st.Expect(t, err, nil)
-  st.Expect(t, res.StatusCode, 200)
+  require.Equal(t, err, nil)
+  require.Equal(t, res.StatusCode, 200)
   body, _ := ioutil.ReadAll(res.Body)
-  st.Expect(t, string(body), "foo foo")
+  require.Equal(t, string(body), "foo foo")
 
   // Verify that we don't have pending mocks
-  st.Expect(t, gock.IsDone(), true)
+  require.Equal(t, gock.IsDone(), true)
 }
 ```
 

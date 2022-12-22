@@ -2,11 +2,12 @@ package test
 
 import (
 	"bytes"
-	"github.com/nbio/st"
-	"github.com/empire/go-httpmock"
 	"io/ioutil"
 	"net/http"
 	"testing"
+
+	"github.com/empire/go-httpmock"
+	"github.com/stretchr/testify/require"
 )
 
 func TestMockBodyFile(t *testing.T) {
@@ -21,9 +22,9 @@ func TestMockBodyFile(t *testing.T) {
 
 	body := bytes.NewBuffer([]byte(`{"foo":"bar"}`))
 	res, err := http.Post("http://foo.com/bar", "application/json", body)
-	st.Expect(t, err, nil)
-	st.Expect(t, res.StatusCode, 201)
+	require.Equal(t, err, nil)
+	require.Equal(t, res.StatusCode, 201)
 
 	resBody, _ := ioutil.ReadAll(res.Body)
-	st.Expect(t, string(resBody)[:13], `{"bar":"foo"}`)
+	require.Equal(t, string(resBody)[:13], `{"bar":"foo"}`)
 }

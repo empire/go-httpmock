@@ -2,11 +2,12 @@ package test
 
 import (
 	"bytes"
-	"github.com/nbio/st"
-	"github.com/empire/go-httpmock"
 	"io/ioutil"
 	"net/http"
 	"testing"
+
+	"github.com/empire/go-httpmock"
+	"github.com/stretchr/testify/require"
 )
 
 func TestRegExpMatching(t *testing.T) {
@@ -23,9 +24,9 @@ func TestRegExpMatching(t *testing.T) {
 	req.Header.Set("Authorization", "Bearer s3cr3t")
 
 	res, err := http.DefaultClient.Do(req)
-	st.Expect(t, err, nil)
-	st.Expect(t, res.StatusCode, 200)
-	st.Expect(t, res.Header.Get("Server"), "gock")
+	require.Equal(t, err, nil)
+	require.Equal(t, res.StatusCode, 200)
+	require.Equal(t, res.Header.Get("Server"), "gock")
 	body, _ := ioutil.ReadAll(res.Body)
-	st.Expect(t, string(body)[:13], `{"foo":"bar"}`)
+	require.Equal(t, string(body)[:13], `{"foo":"bar"}`)
 }

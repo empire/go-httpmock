@@ -1,11 +1,12 @@
 package test
 
 import (
-	"github.com/nbio/st"
-	"github.com/empire/go-httpmock"
 	"io/ioutil"
 	"net/http"
 	"testing"
+
+	"github.com/empire/go-httpmock"
+	"github.com/stretchr/testify/require"
 )
 
 func TestMatchURL(t *testing.T) {
@@ -16,8 +17,8 @@ func TestMatchURL(t *testing.T) {
 		BodyString("foo foo")
 
 	res, err := http.Get("http://foo.com")
-	st.Expect(t, err, nil)
-	st.Expect(t, res.StatusCode, 200)
+	require.Equal(t, err, nil)
+	require.Equal(t, res.StatusCode, 200)
 	body, _ := ioutil.ReadAll(res.Body)
-	st.Expect(t, string(body), "foo foo")
+	require.Equal(t, string(body), "foo foo")
 }

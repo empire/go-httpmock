@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/nbio/st"
+	"github.com/stretchr/testify/require"
 )
 
 func TestTransportMatch(t *testing.T) {
@@ -16,9 +16,9 @@ func TestTransportMatch(t *testing.T) {
 	u, _ := url.Parse(uri)
 	req := &http.Request{URL: u}
 	res, err := NewTransport(mocks).RoundTrip(req)
-	st.Expect(t, err, nil)
-	st.Expect(t, res.StatusCode, 204)
-	st.Expect(t, res.Request, req)
+	require.Equal(t, err, nil)
+	require.Equal(t, res.StatusCode, 204)
+	require.Equal(t, res.Request, req)
 }
 
 func TestTransportCannotMatch(t *testing.T) {
@@ -28,7 +28,7 @@ func TestTransportCannotMatch(t *testing.T) {
 	u, _ := url.Parse("http://127.0.0.1:1234")
 	req := &http.Request{URL: u}
 	_, err := NewTransport(mocks).RoundTrip(req)
-	st.Expect(t, err, ErrCannotMatch)
+	require.Equal(t, err, ErrCannotMatch)
 }
 
 //
@@ -47,7 +47,7 @@ func TestTransportCannotMatch(t *testing.T) {
 // 	req := &http.Request{URL: u, Header: make(http.Header)}
 //
 // 	res, err := NewTransport().RoundTrip(req)
-// 	st.Expect(t, err, nil)
-// 	st.Expect(t, Intercepting(), false)
-// 	st.Expect(t, res.StatusCode, 200)
+// 	require.Equal(t, err, nil)
+// 	require.Equal(t, Intercepting(), false)
+// 	require.Equal(t, res.StatusCode, 200)
 // }
