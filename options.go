@@ -1,4 +1,4 @@
-package gock
+package httpmock
 
 // Options represents customized option for gock
 type Options struct {

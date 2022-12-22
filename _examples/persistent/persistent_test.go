@@ -10,8 +10,8 @@ import (
 )
 
 func TestPersistent(t *testing.T) {
-	defer gock.Disable()
-	gock.New("http://foo.com").
+	defer httpmock.Disable()
+	httpmock.New("http://foo.com").
 		Get("/bar").
 		Persist().
 		Reply(200).
@@ -26,5 +26,5 @@ func TestPersistent(t *testing.T) {
 	}
 
 	// Verify that we don't have pending mocks
-	require.Equal(t, gock.IsDone(), true)
+	require.Equal(t, httpmock.IsDone(), true)
 }

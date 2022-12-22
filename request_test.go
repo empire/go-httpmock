@@ -1,4 +1,4 @@
-package gock
+package httpmock
 
 import (
 	"bytes"
@@ -50,7 +50,7 @@ func TestRequestBodyString(t *testing.T) {
 func TestRequestFile(t *testing.T) {
 	req := NewRequest()
 	req.File("version.go")
-	require.Equal(t, string(req.BodyBuffer)[:12], "package gock")
+	require.Equal(t, string(req.BodyBuffer)[:12], "package httpmock")
 }
 
 func TestRequestJSON(t *testing.T) {

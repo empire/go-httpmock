@@ -1,4 +1,4 @@
-package gock
+package httpmock
 
 import (
 	"context"

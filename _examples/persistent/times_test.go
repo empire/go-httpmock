@@ -10,8 +10,8 @@ import (
 )
 
 func TestTimes(t *testing.T) {
-	defer gock.Disable()
-	gock.New("http://127.0.0.1:1234").
+	defer httpmock.Disable()
+	httpmock.New("http://127.0.0.1:1234").
 		Get("/bar").
 		Times(4).
 		Reply(200).

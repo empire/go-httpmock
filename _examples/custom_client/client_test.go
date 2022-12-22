@@ -10,15 +10,15 @@ import (
 )
 
 func TestClient(t *testing.T) {
-	defer gock.Off()
+	defer httpmock.Off()
 
-	gock.New("http://foo.com").
+	httpmock.New("http://foo.com").
 		Reply(200).
 		BodyString("foo foo")
 
 	req, err := http.NewRequest("GET", "http://foo.com", nil)
 	client := &http.Client{Transport: &http.Transport{}}
-	gock.InterceptClient(client)
+	httpmock.InterceptClient(client)
 
 	res, err := client.Do(req)
 	require.Equal(t, err, nil)

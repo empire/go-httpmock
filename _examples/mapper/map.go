@@ -8,9 +8,9 @@ import (
 )
 
 func main() {
-	defer gock.Disable()
+	defer httpmock.Disable()
 
-	gock.New("http://httpbin.org").
+	httpmock.New("http://httpbin.org").
 		Get("/").
 		Map(func(req *http.Request) *http.Request { req.URL.Host = "httpbin.org"; return req }).
 		Map(func(req *http.Request) *http.Request { req.URL.Path = "/"; return req }).

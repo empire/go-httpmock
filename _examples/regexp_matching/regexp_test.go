@@ -11,8 +11,8 @@ import (
 )
 
 func TestRegExpMatching(t *testing.T) {
-	defer gock.Disable()
-	gock.New("http://foo.com").
+	defer httpmock.Disable()
+	httpmock.New("http://foo.com").
 		Post("/bar").
 		MatchHeader("Authorization", "Bearer (.*)").
 		BodyString(`{"foo":".*"}`).

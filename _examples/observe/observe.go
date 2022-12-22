@@ -8,10 +8,10 @@ import (
 )
 
 func main() {
-	defer gock.Off()
-	gock.Observe(gock.DumpRequest)
+	defer httpmock.Off()
+	httpmock.Observe(gock.DumpRequest)
 
-	gock.New("http://foo.com").
+	httpmock.New("http://foo.com").
 		Post("/bar").
 		MatchType("json").
 		JSON(map[string]string{"foo": "bar"}).

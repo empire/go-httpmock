@@ -10,9 +10,9 @@ import (
 )
 
 func TestMatchHeaders(t *testing.T) {
-	defer gock.Disable()
+	defer httpmock.Disable()
 
-	gock.New("http://foo.com").
+	httpmock.New("http://foo.com").
 		MatchHeader("Authorization", "^foo bar$").
 		MatchHeader("API", "1.[0-9]+").
 		HeaderPresent("Accept").

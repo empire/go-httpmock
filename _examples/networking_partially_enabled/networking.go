@@ -35,17 +35,17 @@ func startHTTPServer() *httptest.Server {
 }
 
 func main() {
-	defer gock.Disable()
-	defer gock.DisableNetworking()
+	defer httpmock.Disable()
+	defer httpmock.DisableNetworking()
 
 	srv := startHTTPServer()
 	defer srv.Close()
 
 	// Register our local server
-	gock.New(srv.URL).
+	httpmock.New(srv.URL).
 		EnableNetworking()
 
-	gock.New("http://httpbin.org").
+	httpmock.New("http://httpbin.org").
 		Get("/nope").
 		Reply(201).
 		SetHeader("Server", "gock")

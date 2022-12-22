@@ -9,7 +9,7 @@ go get -u github.com/stretchr/testify/require
 ```
 
 ```bash
-go get -u gopkg.in/h2non/gock.v1
+go get -u gopkg.in/empire/go-httpmock.v1
 ```
 
 ### Usage

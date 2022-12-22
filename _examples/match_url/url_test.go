@@ -10,9 +10,9 @@ import (
 )
 
 func TestMatchURL(t *testing.T) {
-	defer gock.Disable()
+	defer httpmock.Disable()
 
-	gock.New("http://(.*).com").
+	httpmock.New("http://(.*).com").
 		Reply(200).
 		BodyString("foo foo")
 

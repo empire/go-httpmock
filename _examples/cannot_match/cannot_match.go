@@ -9,7 +9,7 @@ import (
 
 func main() {
 	// gock enabled but cannot match any mock
-	gock.New("http://httpbin.org").
+	httpmock.New("http://httpbin.org").
 		Get("/foo").
 		Reply(201).
 		SetHeader("Server", "gock")

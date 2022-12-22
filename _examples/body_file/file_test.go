@@ -11,9 +11,9 @@ import (
 )
 
 func TestMockBodyFile(t *testing.T) {
-	defer gock.Off()
+	defer httpmock.Off()
 
-	gock.New("http://foo.com").
+	httpmock.New("http://foo.com").
 		Post("/bar").
 		MatchType("json").
 		File("data.json").

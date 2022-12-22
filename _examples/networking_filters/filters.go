@@ -9,18 +9,18 @@ import (
 )
 
 func main() {
-	defer gock.Disable()
-	defer gock.DisableNetworking()
-	defer gock.DisableNetworkingFilters()
+	defer httpmock.Disable()
+	defer httpmock.DisableNetworking()
+	defer httpmock.DisableNetworkingFilters()
 
-	gock.EnableNetworking()
+	httpmock.EnableNetworking()
 
 	// Register a networking filter
-	gock.NetworkingFilter(func(req *http.Request) bool {
+	httpmock.NetworkingFilter(func(req *http.Request) bool {
 		return req.URL.Host == "httpbin.org"
 	})
 
-	gock.New("http://httpbin.org").
+	httpmock.New("http://httpbin.org").
 		Get("/get").
 		Reply(201).
 		SetHeader("Server", "gock")

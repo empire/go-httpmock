@@ -10,9 +10,9 @@ import (
 )
 
 func TestMatchQueryParams(t *testing.T) {
-	defer gock.Disable()
+	defer httpmock.Disable()
 
-	gock.New("http://foo.com").
+	httpmock.New("http://foo.com").
 		MatchParam("foo", "^bar$").
 		MatchParam("bar", "baz").
 		ParamPresent("baz").

@@ -11,9 +11,9 @@ import (
 // Usege example with gentleman HTTP client toolkit.
 // See also: https://github.com/h2non/gentleman-mock
 func main() {
-	defer gock.Off()
+	defer httpmock.Off()
 
-	gock.New("http://httpbin.org").
+	httpmock.New("http://httpbin.org").
 		Get("/*").
 		Reply(204).
 		SetHeader("Server", "gock")
@@ -21,7 +21,7 @@ func main() {
 	cli := gentleman.New()
 
 	cli.UseHandler("before dial", func(ctx *context.Context, h context.Handler) {
-		gock.InterceptClient(ctx.Client)
+		httpmock.InterceptClient(ctx.Client)
 		h.Next(ctx)
 	})
 

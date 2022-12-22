@@ -8,18 +8,18 @@ import (
 )
 
 func main() {
-	defer gock.Off()
+	defer httpmock.Off()
 
 	// Create a new custom matcher with HTTP headers only matchers
-	matcher := gock.NewBasicMatcher()
+	matcher := httpmock.NewBasicMatcher()
 
 	// Add a custom match function
-	matcher.Add(func(req *http.Request, ereq *gock.Request) (bool, error) {
+	matcher.Add(func(req *http.Request, ereq *httpmock.Request) (bool, error) {
 		return req.URL.Scheme == "http", nil
 	})
 
 	// Define the mock
-	gock.New("http://httpbin.org").
+	httpmock.New("http://httpbin.org").
 		SetMatcher(matcher).
 		Get("/").
 		Reply(204).

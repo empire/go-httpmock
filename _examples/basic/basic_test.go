@@ -10,9 +10,9 @@ import (
 )
 
 func TestSimple(t *testing.T) {
-	defer gock.Off()
+	defer httpmock.Off()
 
-	gock.New("http://foo.com").
+	httpmock.New("http://foo.com").
 		Get("/bar").
 		Reply(200).
 		JSON(map[string]string{"foo": "bar"})
@@ -25,5 +25,5 @@ func TestSimple(t *testing.T) {
 	require.Equal(t, string(body)[:13], `{"foo":"bar"}`)
 
 	// Verify that we don't have pending mocks
-	require.Equal(t, gock.IsDone(), true)
+	require.Equal(t, httpmock.IsDone(), true)
 }

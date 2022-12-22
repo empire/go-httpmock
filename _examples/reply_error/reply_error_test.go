@@ -11,9 +11,9 @@ import (
 )
 
 func TestReplyError(t *testing.T) {
-	defer gock.Off()
+	defer httpmock.Off()
 
-	gock.New("http://foo.com").
+	httpmock.New("http://foo.com").
 		Get("/bar").
 		ReplyError(errors.New("Error dude!"))
 
@@ -21,5 +21,5 @@ func TestReplyError(t *testing.T) {
 	require.Equal(t, strings.HasSuffix(err.Error(), ": Error dude!"), true)
 
 	// Verify that we don't have pending mocks
-	require.Equal(t, gock.IsDone(), true)
+	require.Equal(t, httpmock.IsDone(), true)
 }

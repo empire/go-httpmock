@@ -9,11 +9,11 @@ import (
 )
 
 func main() {
-	defer gock.Disable()
-	defer gock.DisableNetworking()
+	defer httpmock.Disable()
+	defer httpmock.DisableNetworking()
 
-	gock.EnableNetworking()
-	gock.New("http://httpbin.org").
+	httpmock.EnableNetworking()
+	httpmock.New("http://httpbin.org").
 		Get("/get").
 		Reply(201).
 		SetHeader("Server", "gock")

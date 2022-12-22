@@ -1,4 +1,4 @@
-# gock [![Build Status](https://travis-ci.org/h2non/gock.svg?branch=master)](https://travis-ci.org/h2non/gock) [![GitHub release](https://img.shields.io/badge/version-v1.0-orange.svg?style=flat)](https://github.com/h2non/gock/releases) [![GoDoc](https://godoc.org/github.com/h2non/gock?status.svg)](https://godoc.org/github.com/h2non/gock) [![Coverage Status](https://coveralls.io/repos/github/h2non/gock/badge.svg?branch=master)](https://coveralls.io/github/h2non/gock?branch=master) [![Go Report Card](https://img.shields.io/badge/go_report-A+-brightgreen.svg)](https://goreportcard.com/report/github.com/h2non/gock) [![license](https://img.shields.io/badge/license-MIT-blue.svg)]()
+# httpmock [![Build Status](https://travis-ci.org/empire/go-httpmock.svg?branch=master)](https://travis-ci.org/empire/go-httpmock) [![GitHub release](https://img.shields.io/badge/version-v1.0-orange.svg?style=flat)](https://github.com/empire/go-httpmock/releases) [![GoDoc](https://godoc.org/github.com/empire/go-httpmock?status.svg)](https://godoc.org/github.com/empire/go-httpmock) [![Coverage Status](https://coveralls.io/repos/github/empire/go-httpmock/badge.svg?branch=master)](https://coveralls.io/github/empire/go-httpmock?branch=master) [![Go Report Card](https://img.shields.io/badge/go_report-A+-brightgreen.svg)](https://goreportcard.com/report/github.com/empire/go-httpmock) [![license](https://img.shields.io/badge/license-MIT-blue.svg)]()
 
 Versatile HTTP mocking made easy in [Go](https://golang.org) that works with any `net/http` based stdlib implementation.
 
@@ -34,7 +34,7 @@ go get -u github.com/empire/go-httpmock
 
 ## API
 
-See [godoc reference](https://godoc.org/github.com/h2non/gock) for detailed API documentation.
+See [godoc reference](https://godoc.org/github.com/empire/go-httpmock) for detailed API documentation.
 
 ## How it mocks
 
@@ -51,9 +51,9 @@ Declare your mocks before you start declaring the concrete test logic:
 
 ```go
 func TestFoo(t *testing.T) {
-  defer gock.Off() // Flush pending mocks after test execution
+  defer httpmock.Off() // Flush pending mocks after test execution
 
-  gock.New("http://server.com").
+  httpmock.New("http://server.com").
     Get("/bar").
     Reply(200).
     JSON(map[string]string{"foo": "bar"})
@@ -65,10 +65,10 @@ func TestFoo(t *testing.T) {
 #### Race conditions
 
 If you're running concurrent code, be aware that your mocks are declared first to avoid unexpected
-race conditions while configuring `gock` or intercepting custom HTTP clients.
+race conditions while configuring `httpmock` or intercepting custom HTTP clients.
 
-`gock` is not fully thread-safe, but sensible parts are.
-Any help making `gock` more reliable in this sense is appreciated.
+`httpmock` is not fully thread-safe, but sensible parts are.
+Any help making `httpmock` more reliable in this sense is appreciated.
 
 #### Define complex mocks first
 
@@ -77,16 +77,16 @@ concrete mocks first, and then the generic ones.
 
 This approach usually avoids matching unexpected generic mocks (e.g: specific header, body payload...) instead of the generic ones that performs less complex matches.
 
-#### Disable `gock` traffic interception once done
+#### Disable `httpmock` traffic interception once done
 
 In other to minimize potential side effects within your test code, it's a good practice
-disabling `gock` once you are done with your HTTP testing logic.
+disabling `httpmock` once you are done with your HTTP testing logic.
 
 A Go idiomatic approach for doing this can be using it in a `defer` statement, such as:
 
 ```go
 func TestGock (t *testing.T) {
-	defer gock.Off()
+	defer httpmock.Off()
 
 	// ... my test code goes here
 }
@@ -96,20 +96,20 @@ func TestGock (t *testing.T) {
 
 You don't need to intercept multiple times the same `http.Client` instance.
 
-Just call `gock.InterceptClient(client)` once, typically at the beginning of your test scenarios.
+Just call `httpmock.InterceptClient(client)` once, typically at the beginning of your test scenarios.
 
 #### Restore an `http.Client` after interception
 
 **NOTE**: this is not required is you are using `http.DefaultClient` or `http.DefaultTransport`.
 
-As a good testing pattern, you should call `gock.RestoreClient(client)` after running your test scenario, typically as after clean up hook.
+As a good testing pattern, you should call `httpmock.RestoreClient(client)` after running your test scenario, typically as after clean up hook.
 
-You can also use a `defer` statement for doing it, as you do with `gock.Off()`, such as:
+You can also use a `defer` statement for doing it, as you do with `httpmock.Off()`, such as:
 
 ```go
 func TestGock (t *testing.T) {
-	defer gock.Off()
-	defer gock.RestoreClient(client)
+	defer httpmock.Off()
+	defer httpmock.RestoreClient(client)
 
 	// ... my test code goes here
 }
@@ -117,7 +117,7 @@ func TestGock (t *testing.T) {
 
 ## Examples
 
-See [examples](https://github.com/h2non/gock/tree/master/_examples) directory for more featured use cases.
+See [examples](https://github.com/empire/go-httpmock/tree/master/_examples) directory for more featured use cases.
 
 #### Simple mocking via tests
 
@@ -133,9 +133,9 @@ import (
 )
 
 func TestSimple(t *testing.T) {
-  defer gock.Off()
+  defer httpmock.Off()
 
-  gock.New("http://foo.com").
+  httpmock.New("http://foo.com").
     Get("/bar").
     Reply(200).
     JSON(map[string]string{"foo": "bar"})
@@ -148,7 +148,7 @@ func TestSimple(t *testing.T) {
   require.Equal(t, string(body)[:13], `{"foo":"bar"}`)
 
   // Verify that we don't have pending mocks
-  require.Equal(t, gock.IsDone(), true)
+  require.Equal(t, httpmock.IsDone(), true)
 }
 ```
 
@@ -166,9 +166,9 @@ import (
 )
 
 func TestMatchHeaders(t *testing.T) {
-  defer gock.Off()
+  defer httpmock.Off()
 
-  gock.New("http://foo.com").
+  httpmock.New("http://foo.com").
     MatchHeader("Authorization", "^foo bar$").
     MatchHeader("API", "1.[0-9]+").
     HeaderPresent("Accept").
@@ -187,7 +187,7 @@ func TestMatchHeaders(t *testing.T) {
   require.Equal(t, string(body), "foo foo")
 
   // Verify that we don't have pending mocks
-  require.Equal(t, gock.IsDone(), true)
+  require.Equal(t, httpmock.IsDone(), true)
 }
 ```
 
@@ -205,9 +205,9 @@ import (
 )
 
 func TestMatchParams(t *testing.T) {
-  defer gock.Off()
+  defer httpmock.Off()
 
-  gock.New("http://foo.com").
+  httpmock.New("http://foo.com").
     MatchParam("page", "1").
     MatchParam("per_page", "10").
     Reply(200).
@@ -222,7 +222,7 @@ func TestMatchParams(t *testing.T) {
   require.Equal(t, string(body), "foo foo")
 
   // Verify that we don't have pending mocks
-  require.Equal(t, gock.IsDone(), true)
+  require.Equal(t, httpmock.IsDone(), true)
 }
 ```
 
@@ -241,9 +241,9 @@ import (
 )
 
 func TestMockSimple(t *testing.T) {
-  defer gock.Off()
+  defer httpmock.Off()
 
-  gock.New("http://foo.com").
+  httpmock.New("http://foo.com").
     Post("/bar").
     MatchType("json").
     JSON(map[string]string{"foo": "bar"}).
@@ -259,7 +259,7 @@ func TestMockSimple(t *testing.T) {
   require.Equal(t, string(resBody)[:13], `{"bar":"foo"}`)
 
   // Verify that we don't have pending mocks
-  require.Equal(t, gock.IsDone(), true)
+  require.Equal(t, httpmock.IsDone(), true)
 }
 ```
 
@@ -277,15 +277,15 @@ import (
 )
 
 func TestClient(t *testing.T) {
-  defer gock.Off()
+  defer httpmock.Off()
 
-  gock.New("http://foo.com").
+  httpmock.New("http://foo.com").
     Reply(200).
     BodyString("foo foo")
 
   req, err := http.NewRequest("GET", "http://foo.com", nil)
   client := &http.Client{Transport: &http.Transport{}}
-  gock.InterceptClient(client)
+  httpmock.InterceptClient(client)
 
   res, err := client.Do(req)
   require.Equal(t, err, nil)
@@ -294,7 +294,7 @@ func TestClient(t *testing.T) {
   require.Equal(t, string(body), "foo foo")
 
   // Verify that we don't have pending mocks
-  require.Equal(t, gock.IsDone(), true)
+  require.Equal(t, httpmock.IsDone(), true)
 }
 ```
 
@@ -311,14 +311,14 @@ import (
 )
 
 func main() {
-  defer gock.Off()
-  defer gock.DisableNetworking()
+  defer httpmock.Off()
+  defer httpmock.DisableNetworking()
 
-  gock.EnableNetworking()
-  gock.New("http://httpbin.org").
+  httpmock.EnableNetworking()
+  httpmock.New("http://httpbin.org").
     Get("/get").
     Reply(201).
-    SetHeader("Server", "gock")
+    SetHeader("Server", "httpmock")
 
   res, err := http.Get("http://httpbin.org/get")
   if err != nil {
@@ -347,10 +347,10 @@ import (
 )
 
 func main() {
-	defer gock.Off()
-	gock.Observe(gock.DumpRequest)
+	defer httpmock.Off()
+	httpmock.Observe(httpmock.DumpRequest)
 
-	gock.New("http://foo.com").
+	httpmock.New("http://foo.com").
 		Post("/bar").
 		MatchType("json").
 		JSON(map[string]string{"foo": "bar"}).
@@ -364,9 +364,9 @@ func main() {
 
 ## Hacking it!
 
-You can easily hack `gock` defining custom matcher functions with own matching rules.
+You can easily hack `httpmock` defining custom matcher functions with own matching rules.
 
-See [add matcher functions](https://github.com/h2non/gock/blob/master/_examples/add_matchers/matchers.go) and [custom matching layer](https://github.com/h2non/gock/blob/master/_examples/custom_matcher/matcher.go) examples for further details.
+See [add matcher functions](https://github.com/empire/go-httpmock/blob/master/_examples/add_matchers/matchers.go) and [custom matching layer](https://github.com/empire/go-httpmock/blob/master/_examples/custom_matcher/matcher.go) examples for further details.
 
 ## License
 

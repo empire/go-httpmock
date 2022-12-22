@@ -8,12 +8,12 @@ import (
 )
 
 func main() {
-	defer gock.Disable()
-	defer gock.Flush() // Flush all the registered mocks, including the pending ones.
-	defer gock.Clean() // Clean all the finished mocks, but keeping the pending ones.
-	// defer gock.Off() -> Or you can simply call Off() method
+	defer httpmock.Disable()
+	defer httpmock.Flush() // Flush all the registered mocks, including the pending ones.
+	defer httpmock.Clean() // Clean all the finished mocks, but keeping the pending ones.
+	// defer httpmock.Off() -> Or you can simply call Off() method
 
-	gock.New("http://httpbin.org").
+	httpmock.New("http://httpbin.org").
 		Get("/get").
 		Filter(func(req *http.Request) bool { return req.URL.Host == "httpbin.org" }).
 		Filter(func(req *http.Request) bool { return req.URL.Path == "/get" }).

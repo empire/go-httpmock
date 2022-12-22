@@ -10,19 +10,19 @@ import (
 )
 
 func TestMultipleMocks(t *testing.T) {
-	defer gock.Disable()
+	defer httpmock.Disable()
 
-	gock.New("http://server.com").
+	httpmock.New("http://server.com").
 		Get("/foo").
 		Reply(200).
 		JSON(map[string]string{"value": "foo"})
 
-	gock.New("http://server.com").
+	httpmock.New("http://server.com").
 		Get("/bar").
 		Reply(200).
 		JSON(map[string]string{"value": "bar"})
 
-	gock.New("http://server.com").
+	httpmock.New("http://server.com").
 		Get("/baz").
 		Reply(200).
 		JSON(map[string]string{"value": "baz"})
