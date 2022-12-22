@@ -474,27 +474,26 @@ func TestMockRegExpMatching(t *testing.T) {
 	require.Equal(t, string(body)[:13], `{"foo":"bar"}`)
 }
 
-//
-// func TestObserve(t *testing.T) {
-// 	// t.Parallel()
-//
-// 	defer after()
-// 	var observedRequest *http.Request
-// 	var observedMock Mock
-// 	s := Server(t)
-// 	Observe(func(request *http.Request, mock Mock) {
-// 		observedRequest = request
-// 		observedMock = mock
-// 	})
-// 	New(s.URL).Reply(200)
-// 	req, _ := http.NewRequest("POST", s.URL, nil)
-//
-// 	http.DefaultClient.Do(req)
-//
-// 	require.NotNil(t, observedRequest)
-// 	require.Contains(t, s.URL, observedRequest.Host)
-// 	require.Contains(t, s.URL, observedMock.Request().URLStruct.Host)
-// }
+func TestObserve(t *testing.T) {
+	// t.Parallel()
+
+	defer after()
+	var observedRequest *http.Request
+	var observedMock Mock
+	s := Server(t)
+	Observe(func(request *http.Request, mock Mock) {
+		observedRequest = request
+		observedMock = mock
+	})
+	New(s.URL).Reply(200)
+	req, _ := http.NewRequest("POST", s.URL, nil)
+
+	http.DefaultClient.Do(req)
+
+	require.NotNil(t, observedRequest)
+	require.Contains(t, s.URL, observedRequest.Host)
+	require.Contains(t, s.URL, observedMock.Request().URLStruct.Host)
+}
 
 //
 // func TestTryCreatingRacesInNew(s.URL) {

@@ -12,7 +12,7 @@ func TestTransportMatch(t *testing.T) {
 	t.Parallel()
 
 	defer after()
-	const uri = "http://foo.com"
+	const uri = "http://foo.com/transport/match"
 	mocks := register(t, uri)
 	New(uri).Reply(204)
 	u, _ := url.Parse(uri)
@@ -27,7 +27,7 @@ func TestTransportCannotMatch(t *testing.T) {
 	t.Parallel()
 
 	defer after()
-	mocks := register(t, "http://foo.com")
+	mocks := register(t, "http://foo.com/cannot/match")
 	New("http://foo.com").Reply(204)
 	u, _ := url.Parse("http://127.0.0.1:1234")
 	req := &http.Request{URL: u}
