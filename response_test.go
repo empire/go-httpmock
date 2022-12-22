@@ -22,8 +22,8 @@ func TestNewResponse(t *testing.T) {
 	res.Delay(1000 * time.Millisecond)
 	st.Expect(t, res.ResponseDelay, 1000*time.Millisecond)
 
-	res.EnableNetworking()
-	st.Expect(t, res.UseNetwork, true)
+	// res.EnableNetworking()
+	// st.Expect(t, res.UseNetwork, true)
 }
 
 func TestResponseStatus(t *testing.T) {
@@ -137,12 +137,13 @@ func TestResponseDelay(t *testing.T) {
 	st.Expect(t, res.ResponseDelay, 100*time.Millisecond)
 }
 
-func TestResponseEnableNetworking(t *testing.T) {
-	res := NewResponse()
-	st.Expect(t, res.UseNetwork, false)
-	res.EnableNetworking()
-	st.Expect(t, res.UseNetwork, true)
-}
+//
+// func TestResponseEnableNetworking(t *testing.T) {
+// 	res := NewResponse()
+// 	st.Expect(t, res.UseNetwork, false)
+// 	res.EnableNetworking()
+// 	st.Expect(t, res.UseNetwork, true)
+// }
 
 func TestResponseDone(t *testing.T) {
 	res := NewResponse()

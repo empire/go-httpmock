@@ -174,13 +174,13 @@ func TestRequestFilter(t *testing.T) {
 	st.Expect(t, len(req.Filters), 1)
 }
 
-func TestRequestEnableNetworking(t *testing.T) {
-	req := NewRequest()
-	req.Response = &Response{}
-	st.Expect(t, req.Response.UseNetwork, false)
-	req.EnableNetworking()
-	st.Expect(t, req.Response.UseNetwork, true)
-}
+// func TestRequestEnableNetworking(t *testing.T) {
+// 	req := NewRequest()
+// 	req.Response = &Response{}
+// 	st.Expect(t, req.Response.UseNetwork, false)
+// 	req.EnableNetworking()
+// 	st.Expect(t, req.Response.UseNetwork, true)
+// }
 
 func TestRequestResponse(t *testing.T) {
 	req := NewRequest()

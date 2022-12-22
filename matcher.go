@@ -123,8 +123,9 @@ func (m *MockMatcher) Match(req *http.Request, ereq *Request) (bool, error) {
 
 // MatchMock is a helper function that matches the given http.Request
 // in the list of registered mocks, returning it if matches or error if it fails.
-func MatchMock(req *http.Request) (Mock, error) {
-	for _, mock := range GetAll() {
+func (mocks *_mocks) MatchMock(req *http.Request) (Mock, error) {
+	// for _, mock := range mocks.GetAll() {
+	for _, mock := range mocks.mocks {
 		matches, err := mock.Match(req)
 		if err != nil {
 			return nil, err

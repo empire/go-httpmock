@@ -3,7 +3,7 @@ package gock
 import (
 	"context"
 	"errors"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"testing"
 	"time"
@@ -13,7 +13,8 @@ import (
 
 func TestResponder(t *testing.T) {
 	defer after()
-	mres := New("http://foo.com").Reply(200).BodyString("foo")
+	s := Server(t)
+	mres := New(s.URL).Reply(200).BodyString("foo")
 	req := &http.Request{}
 
 	res, err := Responder(req, mres, nil)
@@ -21,13 +22,14 @@ func TestResponder(t *testing.T) {
 	st.Expect(t, res.Status, "200 OK")
 	st.Expect(t, res.StatusCode, 200)
 
-	body, _ := ioutil.ReadAll(res.Body)
+	body, _ := io.ReadAll(res.Body)
 	st.Expect(t, string(body), "foo")
 }
 
 func TestResponder_ReadTwice(t *testing.T) {
 	defer after()
-	mres := New("http://foo.com").Reply(200).BodyString("foo")
+	s := Server(t)
+	mres := New(s.URL).Reply(200).BodyString("foo")
 	req := &http.Request{}
 
 	res, err := Responder(req, mres, nil)
@@ -35,17 +37,18 @@ func TestResponder_ReadTwice(t *testing.T) {
 	st.Expect(t, res.Status, "200 OK")
 	st.Expect(t, res.StatusCode, 200)
 
-	body, _ := ioutil.ReadAll(res.Body)
+	body, _ := io.ReadAll(res.Body)
 	st.Expect(t, string(body), "foo")
 
-	body, err = ioutil.ReadAll(res.Body)
+	body, err = io.ReadAll(res.Body)
 	st.Expect(t, err, nil)
 	st.Expect(t, body, []byte{})
 }
 
 func TestResponderSupportsMultipleHeadersWithSameKey(t *testing.T) {
 	defer after()
-	mres := New("http://foo").
+	s := Server(t)
+	mres := New(s.URL).
 		Reply(200).
 		AddHeader("Set-Cookie", "a=1").
 		AddHeader("Set-Cookie", "b=2")
@@ -58,7 +61,8 @@ func TestResponderSupportsMultipleHeadersWithSameKey(t *testing.T) {
 
 func TestResponderError(t *testing.T) {
 	defer after()
-	mres := New("http://foo.com").ReplyError(errors.New("error"))
+	s := Server(t)
+	mres := New(s.URL).ReplyError(errors.New("error"))
 	req := &http.Request{}
 
 	res, err := Responder(req, mres, nil)
@@ -68,7 +72,8 @@ func TestResponderError(t *testing.T) {
 
 func TestResponderCancelledContext(t *testing.T) {
 	defer after()
-	mres := New("http://foo.com").Get("").Reply(200).Delay(20 * time.Millisecond).BodyString("foo")
+	s := Server(t)
+	mres := New(s.URL).Get("").Reply(200).Delay(20 * time.Millisecond).BodyString("foo")
 
 	// create a context and schedule a call to cancel in 10ms
 	ctx, cancel := context.WithCancel(context.Background())
@@ -88,7 +93,8 @@ func TestResponderCancelledContext(t *testing.T) {
 
 func TestResponderExpiredContext(t *testing.T) {
 	defer after()
-	mres := New("http://foo.com").Get("").Reply(200).Delay(20 * time.Millisecond).BodyString("foo")
+	s := Server(t)
+	mres := New(s.URL).Get("").Reply(200).Delay(20 * time.Millisecond).BodyString("foo")
 
 	// create a context that is set to expire in 10ms
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Millisecond)
@@ -104,7 +110,8 @@ func TestResponderExpiredContext(t *testing.T) {
 
 func TestResponderPreExpiredContext(t *testing.T) {
 	defer after()
-	mres := New("http://foo.com").Get("").Reply(200).BodyString("foo")
+	s := Server(t)
+	mres := New(s.URL).Get("").Reply(200).BodyString("foo")
 
 	// create a context and wait to ensure it is expired
 	ctx, cancel := context.WithTimeout(context.Background(), 500*time.Microsecond)

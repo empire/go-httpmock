@@ -8,80 +8,89 @@ import (
 
 func TestStoreRegister(t *testing.T) {
 	defer after()
-	st.Expect(t, len(mocks), 0)
+	mocks := register(t, "foo")
+	st.Expect(t, len(mocks.mocks), 0)
 	mock := New("foo").Mock
-	Register(mock)
-	st.Expect(t, len(mocks), 1)
+	mocks.Register(mock)
+	st.Expect(t, len(mocks.mocks), 1)
 	st.Expect(t, mock.Request().Mock, mock)
 	st.Expect(t, mock.Response().Mock, mock)
 }
 
 func TestStoreGetAll(t *testing.T) {
 	defer after()
-	st.Expect(t, len(mocks), 0)
+	mocks := register(t, "foo")
+	st.Expect(t, len(mocks.mocks), 0)
 	mock := New("foo").Mock
-	store := GetAll()
-	st.Expect(t, len(mocks), 1)
-	st.Expect(t, len(store), 1)
-	st.Expect(t, store[0], mock)
+	// store := mocks.GetAll()
+	store := mocks
+	st.Expect(t, len(mocks.mocks), 1)
+	st.Expect(t, len(store.mocks), 1)
+	st.Expect(t, store.mocks[0], mock)
 }
 
 func TestStoreExists(t *testing.T) {
 	defer after()
-	st.Expect(t, len(mocks), 0)
+	mocks := register(t, "foo")
+	st.Expect(t, len(mocks.mocks), 0)
 	mock := New("foo").Mock
-	st.Expect(t, len(mocks), 1)
-	st.Expect(t, Exists(mock), true)
+	st.Expect(t, len(mocks.mocks), 1)
+	st.Expect(t, mocks.Exists(mock), true)
 }
 
 func TestStorePending(t *testing.T) {
 	defer after()
+	mocks := register(t, "foo")
 	New("foo")
-	st.Expect(t, mocks, Pending())
+	st.Expect(t, mocks.mocks, mocks.Pending())
 }
 
 func TestStoreIsPending(t *testing.T) {
 	defer after()
+	mocks := register(t, "foo")
 	New("foo")
-	st.Expect(t, IsPending(), true)
-	Flush()
-	st.Expect(t, IsPending(), false)
+	st.Expect(t, mocks.IsPending(), true)
+	mocks.Flush()
+	st.Expect(t, mocks.IsPending(), false)
 }
 
 func TestStoreIsDone(t *testing.T) {
 	defer after()
+	mocks := register(t, "foo")
 	New("foo")
-	st.Expect(t, IsDone(), false)
-	Flush()
-	st.Expect(t, IsDone(), true)
+	st.Expect(t, mocks.IsDone(), false)
+	mocks.Flush()
+	st.Expect(t, mocks.IsDone(), true)
 }
 
 func TestStoreRemove(t *testing.T) {
 	defer after()
-	st.Expect(t, len(mocks), 0)
+	mocks := register(t, "foo")
+	st.Expect(t, len(mocks.mocks), 0)
 	mock := New("foo").Mock
-	st.Expect(t, len(mocks), 1)
-	st.Expect(t, Exists(mock), true)
+	st.Expect(t, len(mocks.mocks), 1)
+	st.Expect(t, mocks.Exists(mock), true)
 
-	Remove(mock)
-	st.Expect(t, Exists(mock), false)
+	mocks.Remove(mock)
+	st.Expect(t, mocks.Exists(mock), false)
 
-	Remove(mock)
-	st.Expect(t, Exists(mock), false)
+	mocks.Remove(mock)
+	st.Expect(t, mocks.Exists(mock), false)
 }
 
 func TestStoreFlush(t *testing.T) {
 	defer after()
-	st.Expect(t, len(mocks), 0)
+	mocks := register(t, "foo")
+	st.Expect(t, len(mocks.mocks), 0)
 
 	mock1 := New("foo").Mock
 	mock2 := New("foo").Mock
-	st.Expect(t, len(mocks), 2)
-	st.Expect(t, Exists(mock1), true)
-	st.Expect(t, Exists(mock2), true)
+	st.Expect(t, len(mocks.mocks), 2)
+	st.Expect(t, mocks.Exists(mock1), true)
+	st.Expect(t, mocks.Exists(mock2), true)
 
-	Flush()
-	st.Expect(t, len(mocks), 0)
-	st.Expect(t, Exists(mock1), false)
-	st.Expect(t, Exists(mock2), false)
+	mocks.Flush()
+	st.Expect(t, len(mocks.mocks), 0)
+	st.Expect(t, mocks.Exists(mock1), false)
+	st.Expect(t, mocks.Exists(mock2), false)
 }

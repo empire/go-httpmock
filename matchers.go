@@ -4,7 +4,6 @@ import (
 	"compress/gzip"
 	"encoding/json"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"reflect"
 	"regexp"
@@ -81,6 +80,9 @@ func MatchHeaders(req *http.Request, ereq *Request) (bool, error) {
 
 		for _, field := range req.Header[key] {
 			match, err = regexp.MatchString(value[0], field)
+			if err != nil {
+				return false, err
+			}
 			// Some values may contain reserved regex params e.g. "()", try matching with these escaped.
 			matchEscaped, err = regexp.MatchString(regexp.QuoteMeta(value[0]), field)
 
@@ -171,7 +173,7 @@ func MatchBody(req *http.Request, ereq *Request) (bool, error) {
 	}
 
 	// Read the whole request body
-	body, err := ioutil.ReadAll(bodyReader)
+	body, err := io.ReadAll(bodyReader)
 	if err != nil {
 		return false, err
 	}
@@ -193,7 +195,7 @@ func MatchBody(req *http.Request, ereq *Request) (bool, error) {
 
 	// Match request body by regexp
 	match, _ := regexp.MatchString(matchStr, bodyStr)
-	if match == true {
+	if match {
 		return true, nil
 	}
 

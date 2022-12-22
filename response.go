@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"io"
-	"io/ioutil"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -25,8 +25,8 @@ type Response struct {
 	// Error stores the latest response configuration or injected error.
 	Error error
 
-	// UseNetwork enables the use of real network for the current mock.
-	UseNetwork bool
+	// // UseNetwork enables the use of real network for the current mock.
+	// UseNetwork bool
 
 	// StatusCode stores the response status code.
 	StatusCode int
@@ -95,7 +95,7 @@ func (r *Response) SetHeaders(headers map[string]string) *Response {
 
 // Body sets the HTTP response body to be used.
 func (r *Response) Body(body io.Reader) *Response {
-	r.BodyBuffer, r.Error = ioutil.ReadAll(body)
+	r.BodyBuffer, r.Error = io.ReadAll(body)
 	return r
 }
 
@@ -108,7 +108,7 @@ func (r *Response) BodyString(body string) *Response {
 // File defines the response body reading the data
 // from disk based on the file path string.
 func (r *Response) File(path string) *Response {
-	r.BodyBuffer, r.Error = ioutil.ReadFile(path)
+	r.BodyBuffer, r.Error = os.ReadFile(path)
 	return r
 }
 
@@ -151,11 +151,11 @@ func (r *Response) Filter(fn FilterResponseFunc) *Response {
 	return r
 }
 
-// EnableNetworking enables the use real networking for the current mock.
-func (r *Response) EnableNetworking() *Response {
-	r.UseNetwork = true
-	return r
-}
+// // EnableNetworking enables the use real networking for the current mock.
+// func (r *Response) EnableNetworking() *Response {
+// 	r.UseNetwork = true
+// 	return r
+// }
 
 // Done returns true if the mock was done and disabled.
 func (r *Response) Done() bool {
@@ -165,11 +165,11 @@ func (r *Response) Done() bool {
 func readAndDecode(data interface{}, kind string) ([]byte, error) {
 	buf := &bytes.Buffer{}
 
-	switch data.(type) {
+	switch data := data.(type) {
 	case string:
-		buf.WriteString(data.(string))
+		buf.WriteString(data)
 	case []byte:
-		buf.Write(data.([]byte))
+		buf.Write(data)
 	default:
 		var err error
 		if kind == "xml" {
@@ -182,5 +182,5 @@ func readAndDecode(data interface{}, kind string) ([]byte, error) {
 		}
 	}
 
-	return ioutil.ReadAll(buf)
+	return io.ReadAll(buf)
 }
