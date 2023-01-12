@@ -78,7 +78,7 @@ This approach usually avoids matching unexpected generic mocks (e.g: specific he
 
 ## Examples
 
-See [examples](https://github.com/empire/go-httpmock/tree/master/_examples) directory for more featured use cases.
+See [examples](https://github.com/empire/go-httpmock/tree/master/examples) directory for more featured use cases.
 
 #### Simple mocking via tests
 
