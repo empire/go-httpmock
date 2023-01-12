@@ -10,6 +10,8 @@ import (
 )
 
 func TestSimple(t *testing.T) {
+	t.Parallel()
+
 	s := httpmock.Server(t)
 
 	httpmock.New(s.URL).

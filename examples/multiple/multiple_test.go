@@ -1,7 +1,7 @@
 package test
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http"
 	"testing"
 
@@ -10,19 +10,21 @@ import (
 )
 
 func TestMultipleMocks(t *testing.T) {
-	defer httpmock.Disable()
+	t.Parallel()
 
-	httpmock.New("http://server.com").
+	s := httpmock.Server(t)
+
+	httpmock.New(s.URL).
 		Get("/foo").
 		Reply(200).
 		JSON(map[string]string{"value": "foo"})
 
-	httpmock.New("http://server.com").
+	httpmock.New(s.URL).
 		Get("/bar").
 		Reply(200).
 		JSON(map[string]string{"value": "bar"})
 
-	httpmock.New("http://server.com").
+	httpmock.New(s.URL).
 		Get("/baz").
 		Reply(200).
 		JSON(map[string]string{"value": "baz"})
@@ -30,20 +32,21 @@ func TestMultipleMocks(t *testing.T) {
 	tests := []struct {
 		path string
 	}{
-		{"/foo"},
 		{"/bar"},
+		{"/foo"},
 		{"/baz"},
 	}
 
 	for _, test := range tests {
-		res, err := http.Get("http://server.com" + test.path)
+		res, err := http.Get(s.URL + test.path)
 		require.Equal(t, err, nil)
 		require.Equal(t, res.StatusCode, 200)
-		body, _ := ioutil.ReadAll(res.Body)
+		body, _ := io.ReadAll(res.Body)
 		require.Equal(t, string(body)[:15], `{"value":"`+test.path[1:]+`"}`)
 	}
 
 	// Failed request after mocks expires
-	_, err := http.Get("http://server.com/foo")
-	st.Reject(t, err, nil)
+	resp, err := http.Get(s.URL + "/foo")
+	require.NoError(t, err)
+	require.Equal(t, http.StatusInternalServerError, resp.StatusCode)
 }
