@@ -1,7 +1,7 @@
 package test
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http"
 	"testing"
 
@@ -10,15 +10,20 @@ import (
 )
 
 func TestMatchURL(t *testing.T) {
-	defer httpmock.Disable()
+	t.Parallel()
 
-	httpmock.New("http://(.*).com").
+	s := httpmock.Server(t)
+
+	// TODO can we change the api to support this?
+	// httpmock.New("http://(.*).com").
+
+	httpmock.New(s.URL).
 		Reply(200).
 		BodyString("foo foo")
 
-	res, err := http.Get("http://foo.com")
+	res, err := http.Get(s.URL)
 	require.Equal(t, err, nil)
 	require.Equal(t, res.StatusCode, 200)
-	body, _ := ioutil.ReadAll(res.Body)
+	body, _ := io.ReadAll(res.Body)
 	require.Equal(t, string(body), "foo foo")
 }
