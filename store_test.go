@@ -9,10 +9,10 @@ import (
 func TestStoreRegister(t *testing.T) {
 	t.Parallel()
 
-	defer after()
-	mocks := register(t, "store_register")
+	s := Server(t)
+	mocks := load(s.URL)
 	require.Equal(t, len(mocks.mocks), 0)
-	mock := New("store_register").Mock
+	mock := New(s.URL).Mock
 	mocks.Register(mock)
 	require.Equal(t, len(mocks.mocks), 1)
 	require.Equal(t, mock.Request().Mock, mock)
@@ -22,10 +22,10 @@ func TestStoreRegister(t *testing.T) {
 func TestStoreGetAll(t *testing.T) {
 	t.Parallel()
 
-	defer after()
-	mocks := register(t, "store_get_all")
+	s := Server(t)
+	mocks := load(s.URL)
 	require.Equal(t, len(mocks.mocks), 0)
-	mock := New("store_get_all").Mock
+	mock := New(s.URL).Mock
 	// store := mocks.GetAll()
 	store := mocks
 	require.Equal(t, len(mocks.mocks), 1)
@@ -36,10 +36,10 @@ func TestStoreGetAll(t *testing.T) {
 func TestStoreExists(t *testing.T) {
 	t.Parallel()
 
-	defer after()
-	mocks := register(t, "store_exists")
+	s := Server(t)
+	mocks := register(t)
 	require.Equal(t, len(mocks.mocks), 0)
-	mock := New("store_exists").Mock
+	mock := New(s.URL).Mock
 	require.Equal(t, len(mocks.mocks), 1)
 	require.Equal(t, mocks.Exists(mock), true)
 }
@@ -47,18 +47,18 @@ func TestStoreExists(t *testing.T) {
 func TestStorePending(t *testing.T) {
 	t.Parallel()
 
-	defer after()
-	mocks := register(t, "store_pending")
-	New("store_pending")
+	s := Server(t)
+	mocks := load(s.URL)
+	New(s.URL)
 	require.Equal(t, mocks.mocks, mocks.Pending())
 }
 
 func TestStoreIsPending(t *testing.T) {
 	t.Parallel()
 
-	defer after()
-	mocks := register(t, "store_is_pending")
-	New("store_is_pending")
+	s := Server(t)
+	mocks := load(s.URL)
+	New(s.URL)
 	require.Equal(t, mocks.IsPending(), true)
 	mocks.Flush()
 	require.Equal(t, mocks.IsPending(), false)
@@ -67,9 +67,9 @@ func TestStoreIsPending(t *testing.T) {
 func TestStoreIsDone(t *testing.T) {
 	t.Parallel()
 
-	defer after()
-	mocks := register(t, "store_is_done")
-	New("store_is_done")
+	s := Server(t)
+	mocks := load(s.URL)
+	New(s.URL)
 	require.Equal(t, mocks.IsDone(), false)
 	mocks.Flush()
 	require.Equal(t, mocks.IsDone(), true)
@@ -78,10 +78,10 @@ func TestStoreIsDone(t *testing.T) {
 func TestStoreRemove(t *testing.T) {
 	t.Parallel()
 
-	defer after()
-	mocks := register(t, "store_remove")
+	s := Server(t)
+	mocks := load(s.URL)
 	require.Equal(t, len(mocks.mocks), 0)
-	mock := New("store_remove").Mock
+	mock := New(s.URL).Mock
 	require.Equal(t, len(mocks.mocks), 1)
 	require.Equal(t, mocks.Exists(mock), true)
 
@@ -95,12 +95,13 @@ func TestStoreRemove(t *testing.T) {
 func TestStoreFlush(t *testing.T) {
 	t.Parallel()
 
-	defer after()
-	mocks := register(t, "store_flush")
+	s1 := Server(t)
+	s2 := Server(t)
+	mocks := load(s1.URL)
 	require.Equal(t, len(mocks.mocks), 0)
 
-	mock1 := New("store_flush").Mock
-	mock2 := New("store_flush").Mock
+	mock1 := New(s1.URL).Mock
+	mock2 := New(s2.URL).Mock
 	require.Equal(t, len(mocks.mocks), 2)
 	require.Equal(t, mocks.Exists(mock1), true)
 	require.Equal(t, mocks.Exists(mock2), true)

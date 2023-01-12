@@ -47,7 +47,8 @@ func Server(t *testing.T) *httptest.Server {
 		assert.NoError(t, err)
 	}))
 
-	mocks := register(t, server.URL)
+	mocks := register(t)
+	registerURL(mocks, server.URL)
 	transport = NewTransport(mocks)
 
 	t.Cleanup(server.Close)

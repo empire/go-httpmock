@@ -14,7 +14,6 @@ import (
 func TestResponder(t *testing.T) {
 	t.Parallel()
 
-	defer after()
 	s := Server(t)
 	mres := New(s.URL).Reply(200).BodyString("foo")
 	req := &http.Request{}
@@ -31,7 +30,6 @@ func TestResponder(t *testing.T) {
 func TestResponder_ReadTwice(t *testing.T) {
 	t.Parallel()
 
-	defer after()
 	s := Server(t)
 	mres := New(s.URL).Reply(200).BodyString("foo")
 	req := &http.Request{}
@@ -52,7 +50,6 @@ func TestResponder_ReadTwice(t *testing.T) {
 func TestResponderSupportsMultipleHeadersWithSameKey(t *testing.T) {
 	t.Parallel()
 
-	defer after()
 	s := Server(t)
 	mres := New(s.URL).
 		Reply(200).
@@ -68,7 +65,6 @@ func TestResponderSupportsMultipleHeadersWithSameKey(t *testing.T) {
 func TestResponderError(t *testing.T) {
 	t.Parallel()
 
-	defer after()
 	s := Server(t)
 	mres := New(s.URL).ReplyError(errors.New("error"))
 	req := &http.Request{}
@@ -81,7 +77,6 @@ func TestResponderError(t *testing.T) {
 func TestResponderCancelledContext(t *testing.T) {
 	t.Parallel()
 
-	defer after()
 	s := Server(t)
 	mres := New(s.URL).Get("").Reply(200).Delay(20 * time.Millisecond).BodyString("foo")
 
@@ -104,7 +99,6 @@ func TestResponderCancelledContext(t *testing.T) {
 func TestResponderExpiredContext(t *testing.T) {
 	t.Parallel()
 
-	defer after()
 	s := Server(t)
 	mres := New(s.URL).Get("").Reply(200).Delay(20 * time.Millisecond).BodyString("foo")
 
@@ -122,7 +116,6 @@ func TestResponderExpiredContext(t *testing.T) {
 
 func TestResponderPreExpiredContext(t *testing.T) {
 	t.Parallel()
-	defer after()
 	s := Server(t)
 	mres := New(s.URL).Get("").Reply(200).BodyString("foo")
 

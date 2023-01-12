@@ -283,8 +283,6 @@ func TestRequestMethods(t *testing.T) {
 func TestRequestSetMatcher(t *testing.T) {
 	t.Parallel()
 
-	defer after()
-
 	matcher := NewEmptyMatcher()
 	matcher.Add(func(req *http.Request, ereq *Request) (bool, error) {
 		return req.URL.Host == "foo.com", nil
@@ -311,7 +309,6 @@ func TestRequestSetMatcher(t *testing.T) {
 
 func TestRequestAddMatcher(t *testing.T) {
 	t.Parallel()
-	defer after()
 
 	ereq := NewRequest()
 	mock := NewMock(ereq, &Response{})

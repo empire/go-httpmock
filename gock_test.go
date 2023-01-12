@@ -13,7 +13,6 @@ import (
 func TestMockSimple(t *testing.T) {
 	t.Parallel()
 
-	defer after()
 	s := Server(t)
 	New(s.URL).Reply(201).JSON(map[string]string{"foo": "bar"})
 	res, err := http.Get(s.URL)
@@ -21,6 +20,8 @@ func TestMockSimple(t *testing.T) {
 	require.Equal(t, res.StatusCode, 201)
 	body, _ := io.ReadAll(res.Body)
 	require.Equal(t, string(body)[:13], `{"foo":"bar"}`)
+
+	require.True(t, IsDone(t))
 }
 
 //
@@ -35,7 +36,6 @@ func TestMockSimple(t *testing.T) {
 func TestMockBodyStringResponse(t *testing.T) {
 	t.Parallel()
 
-	defer after()
 	s := Server(t)
 	New(s.URL).Reply(200).BodyString("foo bar")
 	res, err := http.Get(s.URL)
@@ -48,7 +48,6 @@ func TestMockBodyStringResponse(t *testing.T) {
 func TestMockBodyMatch(t *testing.T) {
 	t.Parallel()
 
-	defer after()
 	s := Server(t)
 	New(s.URL).BodyString("foo bar").Reply(201).BodyString("foo foo")
 	res, err := http.Post(s.URL, "text/plain", bytes.NewBuffer([]byte("foo bar")))
@@ -61,7 +60,6 @@ func TestMockBodyMatch(t *testing.T) {
 func TestMockBodyCannotMatch(t *testing.T) {
 	t.Parallel()
 
-	defer after()
 	s := Server(t)
 	New(s.URL).BodyString("foo foo").Reply(201).BodyString("foo foo")
 	res, err := http.Post(s.URL, "text/plain", bytes.NewBuffer([]byte("foo bar")))
@@ -75,7 +73,6 @@ func TestMockBodyCannotMatch(t *testing.T) {
 func TestMockBodyMatchCompressed(t *testing.T) {
 	t.Parallel()
 
-	defer after()
 	s := Server(t)
 	New(s.URL).Compression("gzip").BodyString("foo bar").Reply(201).BodyString("foo foo")
 
@@ -98,7 +95,6 @@ func TestMockBodyMatchCompressed(t *testing.T) {
 func TestMockBodyCannotMatchCompressed(t *testing.T) {
 	t.Parallel()
 
-	defer after()
 	s := Server(t)
 	New(s.URL).Compression("gzip").BodyString("foo bar").Reply(201).BodyString("foo foo")
 	res, err := http.Post(s.URL, "text/plain", bytes.NewBuffer([]byte("foo bar")))
@@ -109,7 +105,6 @@ func TestMockBodyCannotMatchCompressed(t *testing.T) {
 func TestMockBodyMatchJSON(t *testing.T) {
 	t.Parallel()
 
-	defer after()
 	s := Server(t)
 	New(s.URL).
 		Post("/bar").
@@ -127,7 +122,6 @@ func TestMockBodyMatchJSON(t *testing.T) {
 func TestMockBodyCannotMatchJSON(t *testing.T) {
 	t.Parallel()
 
-	defer after()
 	s := Server(t)
 	New(s.URL).
 		Post("/bar").
@@ -143,7 +137,6 @@ func TestMockBodyCannotMatchJSON(t *testing.T) {
 func TestMockBodyMatchCompressedJSON(t *testing.T) {
 	t.Parallel()
 
-	defer after()
 	s := Server(t)
 	New(s.URL).
 		Post("/bar").
@@ -170,7 +163,6 @@ func TestMockBodyMatchCompressedJSON(t *testing.T) {
 func TestMockBodyCannotMatchCompressedJSON(t *testing.T) {
 	t.Parallel()
 
-	defer after()
 	s := Server(t)
 	New(s.URL).
 		Post("/bar").
@@ -194,7 +186,6 @@ func TestMockBodyCannotMatchCompressedJSON(t *testing.T) {
 func TestMockMatchHeaders(t *testing.T) {
 	t.Parallel()
 
-	defer after()
 	s := Server(t)
 	New(s.URL).
 		MatchHeader("Content-Type", "(.*)/plain").
@@ -210,8 +201,6 @@ func TestMockMatchHeaders(t *testing.T) {
 
 func TestMockMap(t *testing.T) {
 	t.Parallel()
-
-	defer after()
 
 	s := Server(t)
 	mock := New(s.URL)
@@ -231,7 +220,6 @@ func TestMockMap(t *testing.T) {
 
 // TODO Uncomment
 // func TestMockFilter(t *testing.T) {
-// 	defer after()
 //
 // 	s := Server(t)
 // 	mock := New(s.URL)
@@ -249,7 +237,6 @@ func TestMockMap(t *testing.T) {
 
 // TODO uncomment
 // func TestMockCounterDisabled(t *testing.T) {
-// 	defer after()
 // 	s := Server(t)
 // 	New(s.URL).Reply(204)
 // 	require.Equal(t, len(*mocks), 1)
@@ -261,7 +248,6 @@ func TestMockMap(t *testing.T) {
 
 //
 // func TestMockEnableNetwork(t *testing.T) {
-// 	defer after()
 //
 // 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 // 		fmt.Fprintln(w, "Hello, world")
@@ -286,7 +272,6 @@ func TestMockMap(t *testing.T) {
 // }
 //
 // func TestMockEnableNetworkFilter(t *testing.T) {
-// 	defer after()
 //
 // 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 // 		fmt.Fprintln(w, "Hello, world")
@@ -315,7 +300,6 @@ func TestMockMap(t *testing.T) {
 func TestMockPersistent(t *testing.T) {
 	t.Parallel()
 
-	defer after()
 	s := Server(t)
 	New(s.URL).
 		Get("/bar").
@@ -335,7 +319,6 @@ func TestMockPersistent(t *testing.T) {
 func TestMockPersistTimes(t *testing.T) {
 	t.Parallel()
 
-	defer after()
 	s := Server(t)
 	New(s.URL).
 		Get("/bar").
@@ -359,7 +342,6 @@ func TestMockPersistTimes(t *testing.T) {
 
 // TODO FIX THIS
 // func TestUnmatched(t *testing.T) {
-// 	defer after()
 //
 // 	// clear out any unmatchedRequests from other tests
 // 	unmatchedRequests = []*http.Request{}
@@ -416,7 +398,6 @@ func TestMockPersistTimes(t *testing.T) {
 // }
 
 // func TestInterceptClient(t *testing.T) {
-// 	defer after()
 //
 // 	New(s.URL).Reply(204)
 // 	require.Equal(t, len(GetAll()), 1)
@@ -431,7 +412,6 @@ func TestMockPersistTimes(t *testing.T) {
 // }
 
 // func TestRestoreClient(t *testing.T) {
-// 	defer after()
 //
 // 	New(s.URL).Reply(204)
 // 	require.Equal(t, len(GetAll()), 1)
@@ -452,7 +432,6 @@ func TestMockPersistTimes(t *testing.T) {
 func TestMockRegExpMatching(t *testing.T) {
 	t.Parallel()
 
-	defer after()
 	s := Server(t)
 	New(s.URL).
 		Post("/bar").
@@ -477,7 +456,6 @@ func TestMockRegExpMatching(t *testing.T) {
 func TestObserve(t *testing.T) {
 	// t.Parallel()
 
-	defer after()
 	var observedRequest *http.Request
 	var observedMock Mock
 	s := Server(t)
@@ -497,15 +475,14 @@ func TestObserve(t *testing.T) {
 
 //
 // func TestTryCreatingRacesInNew(s.URL) {
-// 	defer after()
 // 	for i := 0; i < 10; i++ {
 // 		go func() {
 // 			New(s.URL)
 // 		}()
 // 	}
 // }
-
-func after() {
-	// Flush()
-	// Disable()
-}
+//
+// func after() {
+// 	// Flush()
+// 	// Disable()
+// }

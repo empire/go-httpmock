@@ -11,9 +11,9 @@ import (
 func TestTransportMatch(t *testing.T) {
 	t.Parallel()
 
-	defer after()
-	const uri = "http://foo.com/transport/match"
-	mocks := register(t, uri)
+	s := Server(t)
+	uri := s.URL
+	mocks := load(uri)
 	New(uri).Reply(204)
 	u, _ := url.Parse(uri)
 	req := &http.Request{URL: u}
@@ -26,9 +26,9 @@ func TestTransportMatch(t *testing.T) {
 func TestTransportCannotMatch(t *testing.T) {
 	t.Parallel()
 
-	defer after()
-	mocks := register(t, "http://foo.com/cannot/match")
-	New("http://foo.com").Reply(204)
+	s := Server(t)
+	mocks := load(s.URL)
+	New(s.URL).Reply(204)
 	u, _ := url.Parse("http://127.0.0.1:1234")
 	req := &http.Request{URL: u}
 	_, err := NewTransport(mocks).RoundTrip(req)
@@ -37,7 +37,6 @@ func TestTransportCannotMatch(t *testing.T) {
 
 //
 // func TestTransportNotIntercepting(t *testing.T) {
-// 	defer after()
 //
 // 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 // 		fmt.Fprintln(w, "Hello, world")

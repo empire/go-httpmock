@@ -30,6 +30,7 @@ var DumpRequest ObserverFunc = func(request *http.Request, mock Mock) {
 	fmt.Printf("\nMatches: %v\n---\n", mock != nil)
 }
 
+// TODO don't use global variable
 // track unmatched requests so they can be tested for
 var unmatchedRequests = []*http.Request{}
 

@@ -10,8 +10,6 @@ import (
 func TestNewMock(t *testing.T) {
 	t.Parallel()
 
-	defer after()
-
 	req := NewRequest()
 	res := NewResponse()
 	mock := NewMock(req, res)
@@ -26,8 +24,6 @@ func TestNewMock(t *testing.T) {
 
 func TestMockDisable(t *testing.T) {
 	t.Parallel()
-
-	defer after()
 
 	req := NewRequest()
 	res := NewResponse()
@@ -44,8 +40,6 @@ func TestMockDisable(t *testing.T) {
 
 func TestMockDone(t *testing.T) {
 	t.Parallel()
-
-	defer after()
 
 	req := NewRequest()
 	res := NewResponse()
@@ -73,8 +67,6 @@ func TestMockDone(t *testing.T) {
 func TestMockSetMatcher(t *testing.T) {
 	t.Parallel()
 
-	defer after()
-
 	req := NewRequest()
 	res := NewResponse()
 	mock := NewMock(req, res)
@@ -97,8 +89,6 @@ func TestMockSetMatcher(t *testing.T) {
 func TestMockAddMatcher(t *testing.T) {
 	t.Parallel()
 
-	defer after()
-
 	req := NewRequest()
 	res := NewResponse()
 	mock := NewMock(req, res)
@@ -120,8 +110,6 @@ func TestMockAddMatcher(t *testing.T) {
 
 func TestMockMatch(t *testing.T) {
 	t.Parallel()
-
-	defer after()
 
 	req := NewRequest()
 	res := NewResponse()
