@@ -12,6 +12,8 @@ var (
 )
 
 func register(t *testing.T) *_mocks {
+	t.Helper()
+
 	lock.Lock()
 	defer lock.Unlock()
 
@@ -44,10 +46,34 @@ func load(url string) *_mocks {
 }
 
 func IsDone(t *testing.T) bool {
+	t.Helper()
+
 	mocks, ok := _map.Load(t)
 	if !ok {
 		t.Errorf("TODO can't find mocks for this test")
 		return false
 	}
 	return mocks.(*_mocks).IsDone()
+}
+
+func IsPending(t *testing.T) bool {
+	t.Helper()
+
+	mocks, ok := _map.Load(t)
+	if !ok {
+		t.Errorf("TODO can't find mocks for this test")
+		return false
+	}
+	return mocks.(*_mocks).IsPending()
+}
+
+func Pending(t *testing.T) []Mock {
+	t.Helper()
+
+	mocks, ok := _map.Load(t)
+	if !ok {
+		t.Errorf("TODO can't find mocks for this test")
+		return nil
+	}
+	return mocks.(*_mocks).Pending()
 }

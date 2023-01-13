@@ -48,5 +48,5 @@ func TestMultipleMocks(t *testing.T) {
 	// Failed request after mocks expires
 	resp, err := http.Get(s.URL + "/foo")
 	require.NoError(t, err)
-	require.Equal(t, http.StatusInternalServerError, resp.StatusCode)
+	require.Equal(t, http.StatusNotImplemented, resp.StatusCode)
 }

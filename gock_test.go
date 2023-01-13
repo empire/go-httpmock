@@ -67,7 +67,7 @@ func TestMockBodyCannotMatch(t *testing.T) {
 
 	body, _ := io.ReadAll(res.Body)
 	require.Equal(t, "gock: cannot match any request", string(body))
-	require.Equal(t, http.StatusInternalServerError, res.StatusCode)
+	require.Equal(t, http.StatusNotImplemented, res.StatusCode)
 }
 
 func TestMockBodyMatchCompressed(t *testing.T) {
@@ -99,7 +99,7 @@ func TestMockBodyCannotMatchCompressed(t *testing.T) {
 	New(s.URL).Compression("gzip").BodyString("foo bar").Reply(201).BodyString("foo foo")
 	res, err := http.Post(s.URL, "text/plain", bytes.NewBuffer([]byte("foo bar")))
 	require.NoError(t, err)
-	require.Equal(t, 500, res.StatusCode)
+	require.Equal(t, http.StatusNotImplemented, res.StatusCode)
 }
 
 func TestMockBodyMatchJSON(t *testing.T) {
@@ -131,7 +131,7 @@ func TestMockBodyCannotMatchJSON(t *testing.T) {
 
 	res, err := http.Post(s.URL+"/bar", "application/json", bytes.NewBuffer([]byte(`{"foo":"bar"}`)))
 	require.NoError(t, err)
-	require.Equal(t, 500, res.StatusCode)
+	require.Equal(t, http.StatusNotImplemented, res.StatusCode)
 }
 
 func TestMockBodyMatchCompressedJSON(t *testing.T) {
@@ -180,7 +180,7 @@ func TestMockBodyCannotMatchCompressedJSON(t *testing.T) {
 	req.Header.Set("Content-Type", "application/json")
 	res, err := http.DefaultClient.Do(req)
 	require.NoError(t, err)
-	require.Equal(t, 500, res.StatusCode)
+	require.Equal(t, http.StatusNotImplemented, res.StatusCode)
 }
 
 func TestMockMatchHeaders(t *testing.T) {
@@ -329,7 +329,7 @@ func TestMockPersistTimes(t *testing.T) {
 	for i := 0; i < 5; i++ {
 		res, err := http.Get(s.URL + "/bar")
 		if i == 4 {
-			require.Equal(t, 500, res.StatusCode)
+			require.Equal(t, http.StatusNotImplemented, res.StatusCode)
 			break
 		}
 

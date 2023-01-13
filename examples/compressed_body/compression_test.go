@@ -3,7 +3,7 @@ package test
 import (
 	"bytes"
 	"compress/gzip"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"testing"
 
@@ -12,9 +12,11 @@ import (
 )
 
 func TestMockSimple(t *testing.T) {
-	defer httpmock.Off()
+	t.Parallel()
 
-	httpmock.New("http://foo.com").
+	s := httpmock.Server(t)
+
+	httpmock.New(s.URL).
 		Post("/bar").
 		MatchType("json").
 		Compression("gzip").
@@ -26,7 +28,7 @@ func TestMockSimple(t *testing.T) {
 	w := gzip.NewWriter(&compressed)
 	w.Write([]byte(`{"foo":"bar"}`))
 	w.Close()
-	req, err := http.NewRequest("POST", "http://foo.com/bar", &compressed)
+	req, err := http.NewRequest("POST", s.URL+"/bar", &compressed)
 	require.Equal(t, err, nil)
 	req.Header.Set("Content-Encoding", "gzip")
 	req.Header.Set("Content-Type", "application/json")
@@ -34,6 +36,7 @@ func TestMockSimple(t *testing.T) {
 	require.Equal(t, err, nil)
 	require.Equal(t, res.StatusCode, 201)
 
-	resBody, _ := ioutil.ReadAll(res.Body)
-	require.Equal(t, string(resBody)[:13], `{"bar":"foo"}`)
+	resBody, err := io.ReadAll(res.Body)
+	require.NoError(t, err)
+	require.JSONEq(t, `{"bar":"foo"}`, string(resBody))
 }

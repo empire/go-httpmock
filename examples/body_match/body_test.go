@@ -2,7 +2,7 @@ package test
 
 import (
 	"bytes"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"testing"
 
@@ -11,9 +11,11 @@ import (
 )
 
 func TestMockSimple(t *testing.T) {
-	defer httpmock.Off()
+	t.Parallel()
 
-	httpmock.New("http://foo.com").
+	s := httpmock.Server(t)
+
+	httpmock.New(s.URL).
 		Post("/bar").
 		MatchType("json").
 		JSON(map[string]string{"foo": "bar"}).
@@ -21,10 +23,10 @@ func TestMockSimple(t *testing.T) {
 		JSON(map[string]string{"bar": "foo"})
 
 	body := bytes.NewBuffer([]byte(`{"foo":"bar"}`))
-	res, err := http.Post("http://foo.com/bar", "application/json", body)
+	res, err := http.Post(s.URL+"/bar", "application/json", body)
 	require.Equal(t, err, nil)
 	require.Equal(t, res.StatusCode, 201)
 
-	resBody, _ := ioutil.ReadAll(res.Body)
-	require.Equal(t, string(resBody)[:13], `{"bar":"foo"}`)
+	resBody, _ := io.ReadAll(res.Body)
+	require.JSONEq(t, `{"bar":"foo"}`, string(resBody))
 }

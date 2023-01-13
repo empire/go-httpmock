@@ -25,7 +25,7 @@ func Server(t *testing.T) *httptest.Server {
 		// }
 		if err != nil {
 			_ = err
-			rw.WriteHeader(http.StatusInternalServerError)
+			rw.WriteHeader(http.StatusNotImplemented)
 			rw.Write([]byte(err.Error()))
 			return
 		}
